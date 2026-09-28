@@ -24,7 +24,7 @@
       "url": "https://github.com/technopradyumn/prady/releases/download/v1.0.0/prady-v1.0.0-aarch64-unknown-linux-gnu.tar.gz",
       "checksum": "https://github.com/technopradyumn/prady/releases/download/v1.0.0/prady-v1.0.0-aarch64-unknown-linux-gnu.tar.gz.sha256"
     },
-    "install-sh": "https://github.com/technopradyumn/prady/releases/download/v1.0.0/install.sh",
-    "install-ps1": "https://github.com/technopradyumn/prady/releases/download/v1.0.0/install.ps1"
+    "install-sh": "https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh",
+    "install-ps1": "https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1"
   }
 }
