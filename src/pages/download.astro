@@ -87,11 +87,14 @@ const downloads = [
         <div class="installer-card">
           <div class="card-header">
             <span class="os-tag">Windows</span>
-            <span class="shell-tag">PowerShell</span>
+            <span class="shell-tag">PowerShell / CMD</span>
           </div>
           <div class="command-box">
             <code>irm {latestData.assets['install-ps1']} | iex</code>
           </div>
+          <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.5rem; margin-bottom: 0;">
+            In Command Prompt (cmd.exe), run: <code>powershell -c "irm {latestData.assets['install-ps1']} | iex"</code>
+          </p>
         </div>
       </div>
     </div>

@@ -21,25 +21,31 @@ The Prady toolchain includes:
 
 The fastest and most reliable way to install Prady is using the official automated installer scripts.
 
-### Windows (PowerShell)
+### Windows
 
-Open PowerShell (standard user or administrator) and run:
-
+#### Option 1: PowerShell (Recommended)
+Open **PowerShell** and run:
 ```powershell
 irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex
+```
+
+*If you receive an ExecutionPolicy error in PowerShell, run:*
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex
+```
+
+#### Option 2: Command Prompt (`cmd.exe`)
+If you are inside classic **Command Prompt (CMD)**, prefix the command with `powershell`:
+```cmd
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex"
 ```
 
 > **What this does:**
 > 1. Creates `%USERPROFILE%\.prady\bin` (`C:\Users\<YourUser>\.prady\bin`).
 > 2. Downloads and unpacks the latest `prady.exe` and `prady-lsp.exe` binaries.
 > 3. Permanently adds `%USERPROFILE%\.prady\bin` to your User Environment `Path`.
-> 4. **Note:** Restart your PowerShell or terminal window after running the script so your shell picks up the updated `Path`.
-
-*Troubleshooting Windows Execution Policy:* If you see a script execution policy error, run:
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex
-```
+> 4. **Note:** Restart your terminal window after running the script so your shell picks up the updated `Path`.
 
 ### macOS & Linux (Bash / Zsh)
 
