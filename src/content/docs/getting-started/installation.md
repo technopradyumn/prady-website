@@ -1,6 +1,6 @@
 ---
 title: "Installation & Setup"
-description: "How to install and set up the official Prady compiler on your system."
+description: "How to install and build the official Prady compiler directly from GitHub."
 category: "Getting Started"
 order: 2
 prev:
@@ -17,21 +17,45 @@ The Prady toolchain includes:
 
 ---
 
-## ⚡ Installation Steps
+## 📦 Installing from GitHub
 
-Run the following commands in your terminal to install and activate Prady across your entire system:
+Prady is built using Rust (workspace edition 2021+). You can install and build the toolchain directly from GitHub:
+
+### Step 1: Clone the Repository
 
 ```bash
-cd "c:\Users\techn\Desktop\Acciojob\Programming Language\prady"
-git tag -a v1.0.0 -m "Release v1.0.0 GA"
-git push origin v1.0.0
+git clone https://github.com/technopradyumn/prady.git
+cd prady
 ```
+
+### Step 2: Build the Compiler & LSP
+
+Compile the native release binaries using Cargo:
+
+```bash
+cargo build --release
+```
+
+The compiled native binaries are generated at:
+- `target/release/prady` (or `prady.exe` on Windows)
+- `target/release/prady-lsp` (or `prady-lsp.exe` on Windows)
+
+### Step 3: Install Globally on Your System (Recommended)
+
+To make `prady` accessible anywhere across your system from any terminal window:
+
+```bash
+cargo install --path compiler/prady-cli
+cargo install --path compiler/prady-lsp
+```
+
+Ensure Cargo's bin directory (`~/.cargo/bin` or `%USERPROFILE%\.cargo\bin`) is in your system's `PATH`.
 
 ---
 
 ## ✅ Verifying the Installation
 
-To verify that the compiler is correctly installed and accessible across your entire system, open a new terminal window and run:
+To verify that the compiler is correctly installed and accessible, open a terminal window and run:
 
 ```bash
 prady version
@@ -45,7 +69,13 @@ LLVM Backend Version 18.1.0
 Build Date: 2026-09-28
 ```
 
-You can now run Prady code from anywhere on your system:
+Run your first program directly:
+
+```bash
+prady run examples/hello.pr
+```
+
+Or evaluate a quick snippet inline:
 
 ```bash
 prady eval 'print("Hello from Prady!");'

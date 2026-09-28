@@ -50,12 +50,11 @@ import CodeTabs from '../components/CodeTabs.astro';
       <!-- Quick Install Box -->
       <div class="quick-install-box">
         <div class="install-tabs">
-          <button class="install-tab-btn active" id="tab-sh" data-cmd="curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh">macOS / Linux</button>
-          <button class="install-tab-btn" id="tab-ps1" data-cmd="irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex">Windows (PowerShell)</button>
+          <button class="install-tab-btn active" id="tab-sh" data-cmd="git clone https://github.com/technopradyumn/prady.git && cd prady && cargo build --release">Install via GitHub</button>
         </div>
         <div class="install-command-row">
           <span class="terminal-prompt">$</span>
-          <code class="install-code" id="install-cmd-text">curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh</code>
+          <code class="install-code" id="install-cmd-text">git clone https://github.com/technopradyumn/prady.git && cd prady && cargo build --release</code>
           <button class="install-copy-btn" id="install-copy-btn" title="Copy to clipboard">
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -220,14 +219,13 @@ import CodeTabs from '../components/CodeTabs.astro';
               <span class="step-pill">Compiler & LSP</span>
             </div>
             <p class="step-desc">
-              Download and install the native compiler (<code>prady</code>) and language server (<code>prady-lsp</code>) with a single command.
+              Clone the repository from GitHub and build the native compiler (<code>prady</code>) and language server (<code>prady-lsp</code>).
             </p>
             
             <div class="step-code-card">
               <div class="step-code-header">
                 <div class="step-tabs">
-                  <button class="step-tab-btn active" id="vstep-tab-sh" data-target="vstep-cmd-sh">macOS / Linux</button>
-                  <button class="step-tab-btn" id="vstep-tab-ps1" data-target="vstep-cmd-ps1">Windows (PowerShell)</button>
+                  <span class="os-tag" style="color: var(--color-accent); font-weight: 600; font-size: 0.8rem; padding: 0.25rem 0.5rem;">GitHub</span>
                 </div>
                 <button class="copy-cmd-btn" id="vstep-copy-step1" title="Copy command">
                   <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
@@ -238,13 +236,12 @@ import CodeTabs from '../components/CodeTabs.astro';
                 </button>
               </div>
               <div class="step-code-content">
-                <code id="vstep-cmd-sh" class="cmd-line active">curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh</code>
-                <code id="vstep-cmd-ps1" class="cmd-line">irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex</code>
+                <code id="vstep-cmd-sh" class="cmd-line active">git clone https://github.com/technopradyumn/prady.git &amp;&amp; cd prady &amp;&amp; cargo build --release</code>
               </div>
             </div>
             <div class="step-tip">
-              <span>💡 Prefer manual installation?</span>
-              <a href="/download">Download pre-compiled binaries for Windows, macOS, or Linux →</a>
+              <span>💡 Install globally via Cargo:</span>
+              <code>cargo install --path compiler/prady-cli</code>
             </div>
           </div>
         </div>
