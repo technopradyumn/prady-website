@@ -1,0 +1,123 @@
+---
+// BaseLayout.astro
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchModal from '../components/SearchModal.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  activeNav?: 'handbook' | 'docs' | 'reference' | 'tooling' | 'play' | 'download';
+}
+
+const { 
+  title = 'Prady Programming Language — Architecture-as-Code & High Performance',
+  description = 'Official documentation, reference, interactive playground, and binary downloads for the Prady Programming Language (v1.0.0 GA).',
+  activeNav
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/icon.png" />
+
+  <!-- Open Graph / SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content="/icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Prevent Theme Flash -->
+  <script is:inline>
+    const theme = (() => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('prady-theme')) {
+        return localStorage.getItem('prady-theme');
+      }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    })();
+    document.documentElement.setAttribute('data-theme', theme);
+  </script>
+</head>
+<body>
+  <Header activeNav={activeNav} />
+  
+  <slot />
+
+  <Footer />
+
+  <SearchModal />
+
+  <!-- Universal Code Block Copy Button Script -->
+  <script is:inline>
+    function injectCodeCopyButtons() {
+      const codeBlocks = document.querySelectorAll('pre');
+      codeBlocks.forEach((pre) => {
+        if (pre.querySelector('.code-copy-floating-btn')) return;
+        if (pre.closest('.code-block-container')) return;
+        if (pre.closest('.code-tabs-widget')) return;
+        if (pre.id === 'console-output') return;
+
+        const btn = document.createElement('button');
+        btn.className = 'code-copy-floating-btn';
+        btn.setAttribute('aria-label', 'Copy code to clipboard');
+        btn.setAttribute('title', 'Copy code');
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-label">Copy</span>
+        `;
+
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const codeEl = pre.querySelector('code') || pre;
+          // Extract text ignoring the button itself
+          const clone = codeEl.cloneNode(true);
+          const existingBtn = clone.querySelector('.code-copy-floating-btn');
+          if (existingBtn) existingBtn.remove();
+          const textToCopy = clone.textContent || '';
+
+          try {
+            await navigator.clipboard.writeText(textToCopy.trim());
+            btn.classList.add('copied');
+            const label = btn.querySelector('.copy-label');
+            if (label) label.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              if (label) label.textContent = 'Copy';
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy code: ', err);
+          }
+        });
+
+        pre.appendChild(btn);
+      });
+    }
+
+    injectCodeCopyButtons();
+    document.addEventListener('astro:after-swap', injectCodeCopyButtons);
+    document.addEventListener('DOMContentLoaded', injectCodeCopyButtons);
+  </script>
+</body>
+</html>

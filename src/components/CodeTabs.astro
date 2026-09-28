@@ -1,0 +1,293 @@
+---
+// CodeTabs.astro
+const tabs = [
+  {
+    id: 'tab-architecture',
+    name: 'Architecture Contracts',
+    filename: 'architecture.pr',
+    code: `// Enforce architectural boundaries at compile-time
+architecture EnterpriseApp {
+    layer Core {
+        spec: "Business models & domain interfaces"
+    }
+    layer Data {
+        spec: "Database access and persistence"
+    }
+    layer Presentation {
+        spec: "REST controllers & GraphQL endpoints"
+    }
+
+    // Core layer is protected from database coupling
+    contract CleanArchitecture {
+        Core cannot import Data;
+        Core cannot import Presentation;
+    }
+}
+
+// Compiler immediately flags any invalid cross-boundary import!`
+  },
+  {
+    id: 'tab-collections',
+    name: 'Higher-Order Collections',
+    filename: 'collections.pr',
+    code: `// First-class functional collections
+fn processMetrics(events: List<Event>) -> Map<String, Int> {
+    let activeUsers = events
+        .filter(fn(e: Event) -> Bool {
+            return e.timestamp > 1000 && e.status == "ACTIVE";
+        })
+        .map(fn(e: Event) -> String {
+            return e.userId;
+        });
+
+    let frequency = Map<String, Int>();
+    foreach id in activeUsers {
+        let count = frequency.get(id) ?? 0;
+        frequency.set(id, count + 1);
+    }
+    return frequency;
+}`
+  },
+  {
+    id: 'tab-structures',
+    name: '28 Built-In Data Structures',
+    filename: 'data_structures.pr',
+    code: `// All 28 data structures are native standard types
+fn main() {
+    // Self-balancing Red-Black Tree with O(log N) lookup
+    let tree = RedBlackTree<Int, String>();
+    tree.insert(42, "Prady");
+    tree.insert(17, "Compiler");
+    tree.insert(99, "LLVM");
+
+    // Zero-overhead LRU Cache with capacity enforcement
+    let cache = LRUCache<String, UserProfile>(1000);
+    cache.put("usr_101", fetchUserProfile());
+
+    // Prefix Trie for O(K) autocomplete search
+    let dictionary = Trie();
+    dictionary.insert("algorithm");
+    print("Has prefix 'algo': " + dictionary.startsWith("algo"));
+}`
+  },
+  {
+    id: 'tab-control',
+    name: 'Control Flow & Switch',
+    filename: 'router.pr',
+    code: `// Exhaustive matching and clean control structures
+fn handleRequest(path: String, method: String) -> Response {
+    switch path {
+        case "/api/v1/health":
+            return Response(200, "OK");
+
+        case "/api/v1/compile":
+            if (method != "POST") {
+                return Response(405, "Method Not Allowed");
+            }
+            return compilePradySource();
+
+        case "/api/v1/download":
+            return serveLatestBinary();
+
+        default:
+            return Response(404, "Endpoint Not Found");
+    }
+}`
+  }
+];
+---
+
+<div class="code-tabs-widget">
+  <div class="code-tabs-header">
+    <div class="tabs-list" role="tablist">
+      {tabs.map((tab, idx) => (
+        <button 
+          class={`tab-btn ${idx === 0 ? 'active' : ''}`} 
+          role="tab" 
+          aria-selected={idx === 0 ? 'true' : 'false'}
+          data-tab-id={tab.id}
+        >
+          {tab.name}
+        </button>
+      ))}
+    </div>
+    <div class="header-action-group">
+      <span class="active-filename" id="code-tab-filename">{tabs[0].filename}</span>
+      <button class="copy-tab-code-btn" id="copy-active-tab-btn" title="Copy code snippet">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span>Copy</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="tabs-content">
+    {tabs.map((tab, idx) => (
+      <div 
+        id={tab.id} 
+        class={`tab-pane ${idx === 0 ? 'active' : ''}`} 
+        data-filename={tab.filename}
+      >
+        <pre><code class="language-prady">{tab.code}</code></pre>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .code-tabs-widget {
+    background-color: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .code-tabs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--code-border);
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+
+  .tabs-list {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .tab-btn {
+    padding: 0.85rem 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+
+  .tab-btn:hover {
+    color: #f8fafc;
+  }
+
+  .tab-btn.active {
+    color: #60a5fa;
+    border-bottom-color: #3b82f6;
+  }
+
+  .header-action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .active-filename {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .copy-tab-code-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .copy-tab-code-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  .tabs-content {
+    position: relative;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  .tab-pane pre {
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1.5rem !important;
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+</style>
+
+<script is:inline>
+  function setupCodeTabs() {
+    const tabButtons = document.querySelectorAll('.code-tabs-widget .tab-btn');
+    const panes = document.querySelectorAll('.code-tabs-widget .tab-pane');
+    const filenameEl = document.getElementById('code-tab-filename');
+    const copyBtn = document.getElementById('copy-active-tab-btn');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-tab-id');
+        tabButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        panes.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        const activePane = document.getElementById(targetId);
+        if (activePane) {
+          activePane.classList.add('active');
+          if (filenameEl) {
+            filenameEl.textContent = activePane.getAttribute('data-filename') || '';
+          }
+        }
+      });
+    });
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const activePane = document.querySelector('.code-tabs-widget .tab-pane.active');
+        if (!activePane) return;
+        const code = activePane.querySelector('code')?.innerText || '';
+        try {
+          await navigator.clipboard.writeText(code);
+          const span = copyBtn.querySelector('span');
+          if (span) {
+            span.textContent = 'Copied!';
+            copyBtn.style.color = '#10b981';
+            setTimeout(() => {
+              span.textContent = 'Copy';
+              copyBtn.style.color = '';
+            }, 2000);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
+  }
+
+  setupCodeTabs();
+  document.addEventListener('astro:after-swap', setupCodeTabs);
+</script>

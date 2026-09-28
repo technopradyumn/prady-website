@@ -1,0 +1,143 @@
+---
+// TableOfContents.astro
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings?: Heading[];
+}
+
+const { headings = [] } = Astro.props;
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{filteredHeadings.length > 0 && (
+  <aside class="toc-sidebar" aria-label="Table of Contents">
+    <div class="toc-inner">
+      <h4 class="toc-title">On this page</h4>
+      <nav class="toc-nav">
+        <ul class="toc-list" id="toc-list">
+          {filteredHeadings.map(h => (
+            <li class={`toc-item depth-${h.depth}`}>
+              <a href={`#${h.slug}`} class="toc-link" data-slug={h.slug}>
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </aside>
+)}
+
+<style>
+  .toc-sidebar {
+    width: var(--toc-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    padding: 2rem 1rem 2rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .toc-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-left: 1px solid var(--border-color);
+  }
+
+  .toc-item {
+    margin-left: -1px;
+  }
+
+  .toc-item.depth-3 {
+    padding-left: 0.75rem;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.2rem 0 0.2rem 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s ease;
+    line-height: 1.4;
+  }
+
+  .toc-link:hover {
+    color: var(--text-primary);
+  }
+
+  .toc-link.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  @media (max-width: 1200px) {
+    .toc-sidebar {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  function setupScrollSpy() {
+    const links = document.querySelectorAll('.toc-link');
+    if (links.length === 0) return;
+
+    const headingElements = [];
+    links.forEach(link => {
+      const slug = link.getAttribute('data-slug');
+      const el = document.getElementById(slug);
+      if (el) headingElements.push({ el, link });
+    });
+
+    if (headingElements.length === 0) return;
+
+    function onScroll() {
+      const scrollPos = window.scrollY + 100;
+      let currentActive = null;
+
+      for (let i = 0; i < headingElements.length; i++) {
+        const top = headingElements[i].el.getBoundingClientRect().top + window.scrollY;
+        if (top <= scrollPos) {
+          currentActive = headingElements[i].link;
+        } else {
+          break;
+        }
+      }
+
+      if (!currentActive && headingElements.length > 0) {
+        currentActive = headingElements[0].link;
+      }
+
+      links.forEach(l => l.classList.remove('active'));
+      if (currentActive) {
+        currentActive.classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  setupScrollSpy();
+  document.addEventListener('astro:after-swap', setupScrollSpy);
+</script>

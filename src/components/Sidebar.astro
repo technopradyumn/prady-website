@@ -1,0 +1,220 @@
+---
+// Sidebar.astro
+interface NavLink {
+  title: string;
+  slug: string;
+  badge?: string;
+}
+
+interface NavSection {
+  title: string;
+  links: NavLink[];
+}
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navSections: NavSection[] = [
+  {
+    title: 'Getting Started',
+    links: [
+      { title: 'Overview', slug: '/docs/getting-started/overview' },
+      { title: 'Installation & Setup', slug: '/docs/getting-started/installation' },
+      { title: 'Hello World & Scaffolding', slug: '/docs/getting-started/hello-world' }
+    ]
+  },
+  {
+    title: 'The Handbook',
+    links: [
+      { title: 'The Basics', slug: '/docs/handbook/the-basics' },
+      { title: 'Everyday Types', slug: '/docs/handbook/everyday-types' },
+      { title: 'Control Flow & Loops', slug: '/docs/handbook/control-flow' },
+      { title: 'Functions & Lambdas', slug: '/docs/handbook/functions-and-lambdas' },
+      { title: 'Architecture Contracts', slug: '/docs/handbook/architecture-contracts', badge: 'Core' }
+    ]
+  },
+  {
+    title: 'Language Reference',
+    links: [
+      { title: 'Keywords & Syntax', slug: '/docs/reference/keywords-and-syntax' },
+      { title: 'Built-in Types', slug: '/docs/reference/built-in-types' },
+      { title: '28 Data Structures', slug: '/docs/reference/data-structures', badge: '28 DS' },
+      { title: 'Standard Library', slug: '/docs/reference/standard-library' }
+    ]
+  },
+  {
+    title: 'Tooling & IDE',
+    links: [
+      { title: 'Prady CLI Commands', slug: '/docs/tooling/cli-reference' },
+      { title: 'Package Manager (prady add)', slug: '/docs/tooling/package-manager' },
+      { title: 'VS Code & Language Server (LSP)', slug: '/docs/tooling/editor-extensions' }
+    ]
+  }
+];
+
+function isLinkActive(linkSlug: string, current: string): boolean {
+  if (linkSlug === current) return true;
+  if (current.endsWith('/') && linkSlug === current.slice(0, -1)) return true;
+  if (!current.endsWith('/') && linkSlug === current + '/') return true;
+  return false;
+}
+---
+
+<aside class="docs-sidebar" aria-label="Documentation Navigation">
+  <div class="sidebar-inner">
+    <div class="sidebar-search-box">
+      <button class="sidebar-search-btn" data-open-search>
+        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Quick search...</span>
+        <kbd>/</kbd>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      {navSections.map((section) => (
+        <div class="sidebar-section">
+          <div class="section-header">
+            <span class="section-title">{section.title}</span>
+          </div>
+          <ul class="section-links">
+            {section.links.map((link) => {
+              const active = isLinkActive(link.slug, currentPath);
+              return (
+                <li class="link-item">
+                  <a href={link.slug} class={`doc-link ${active ? 'active' : ''}`}>
+                    <span class="link-text">{link.title}</span>
+                    {link.badge && <span class="nav-badge">{link.badge}</span>}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </nav>
+  </div>
+</aside>
+
+<style>
+  .docs-sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    padding-bottom: 2rem;
+  }
+
+  .sidebar-inner {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .sidebar-search-box {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-search-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .sidebar-search-btn:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+
+  .sidebar-search-btn kbd {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+
+  .sidebar-section {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+  }
+
+  .section-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .doc-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.12s ease;
+  }
+
+  .doc-link:hover {
+    color: var(--accent);
+    background-color: var(--bg-secondary);
+  }
+
+  .doc-link.active {
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+    font-weight: 600;
+  }
+
+  .nav-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 9999px;
+    background-color: var(--badge-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+  }
+
+  @media (max-width: 900px) {
+    .docs-sidebar {
+      display: none;
+    }
+  }
+</style>

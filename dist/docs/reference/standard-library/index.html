@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Standard Library Overview · Prady Docs</title><meta name="description" content="Core modules and standard library packages in Prady."><!-- Favicon --><link rel="icon" type="image/png" href="/icon.png"><!-- Open Graph / SEO --><meta property="og:type" content="website"><meta property="og:title" content="Standard Library Overview · Prady Docs"><meta property="og:description" content="Core modules and standard library packages in Prady."><meta property="og:image" content="/icon.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Standard Library Overview · Prady Docs"><meta name="twitter:description" content="Core modules and standard library packages in Prady."><!-- Preconnect to Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Prevent Theme Flash --><script>
+    const theme = (() => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('prady-theme')) {
+        return localStorage.getItem('prady-theme');
+      }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    })();
+    document.documentElement.setAttribute('data-theme', theme);
+  </script><link rel="stylesheet" href="/_astro/DocLayout.Bs2Mk_o-.css"><link rel="stylesheet" href="/_astro/BaseLayout.CSRFW1Ou.css"></head><body><header class="site-header" data-astro-cid-nen7h5rs><div class="header-inner container" data-astro-cid-nen7h5rs><!-- Brand / Logo --><div class="header-left" data-astro-cid-nen7h5rs><a href="/" class="brand-link" data-astro-cid-nen7h5rs><div class="brand-badge" data-astro-cid-nen7h5rs>.pr</div><span class="brand-title" data-astro-cid-nen7h5rs>Prady</span></a><span class="version-pill" title="Current Release" data-astro-cid-nen7h5rs>v1.0.0 GA</span></div><!-- Search Trigger Bar --><div class="header-search" data-astro-cid-nen7h5rs><button class="search-trigger-btn" data-open-search title="Search docs (Press '/' or Ctrl+K)" data-astro-cid-nen7h5rs><svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-nen7h5rs><circle cx="11" cy="11" r="8" data-astro-cid-nen7h5rs></circle><line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-nen7h5rs></line></svg><span class="search-text" data-astro-cid-nen7h5rs>Search documentation...</span><kbd class="search-key" data-astro-cid-nen7h5rs>/</kbd></button></div><!-- Nav Items & Utilities --><nav class="header-nav" id="desktop-nav" data-astro-cid-nen7h5rs><a href="/docs/handbook/the-basics" class="nav-item " data-astro-cid-nen7h5rs>Handbook</a><a href="/docs/reference/keywords-and-syntax" class="nav-item active" data-astro-cid-nen7h5rs>Reference</a><a href="/docs" class="nav-item " data-astro-cid-nen7h5rs>Docs</a><a href="/docs/tooling/cli-reference" class="nav-item " data-astro-cid-nen7h5rs>Tooling</a><a href="/play" class="nav-item " data-astro-cid-nen7h5rs>Playground</a><a href="/download" class="nav-item " data-astro-cid-nen7h5rs>Download</a><div class="header-divider" data-astro-cid-nen7h5rs></div><button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light/dark theme" title="Toggle theme" data-astro-cid-l6lhmie6><svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-l6lhmie6><circle cx="12" cy="12" r="5" data-astro-cid-l6lhmie6></circle><line x1="12" y1="1" x2="12" y2="3" data-astro-cid-l6lhmie6></line><line x1="12" y1="21" x2="12" y2="23" data-astro-cid-l6lhmie6></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" data-astro-cid-l6lhmie6></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" data-astro-cid-l6lhmie6></line><line x1="1" y1="12" x2="3" y2="12" data-astro-cid-l6lhmie6></line><line x1="21" y1="12" x2="23" y2="12" data-astro-cid-l6lhmie6></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" data-astro-cid-l6lhmie6></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" data-astro-cid-l6lhmie6></line></svg><svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-l6lhmie6><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" data-astro-cid-l6lhmie6></path></svg></button><script>
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('prady-theme', next);
+    });
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+</script><a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" class="icon-link" title="Prady on GitHub" data-astro-cid-nen7h5rs><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-nen7h5rs><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-astro-cid-nen7h5rs></path></svg></a><!-- Mobile Hamburger Button --><button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu" data-astro-cid-nen7h5rs><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-nen7h5rs><line x1="3" y1="12" x2="21" y2="12" data-astro-cid-nen7h5rs></line><line x1="3" y1="6" x2="21" y2="6" data-astro-cid-nen7h5rs></line><line x1="3" y1="18" x2="21" y2="18" data-astro-cid-nen7h5rs></line></svg></button></nav></div><!-- Mobile Drawer Menu --><div class="mobile-drawer hidden" id="mobile-drawer" data-astro-cid-nen7h5rs><div class="mobile-drawer-links" data-astro-cid-nen7h5rs><a href="/docs/handbook/the-basics" class="mobile-link" data-astro-cid-nen7h5rs>Handbook</a><a href="/docs/reference/keywords-and-syntax" class="mobile-link" data-astro-cid-nen7h5rs>Reference</a><a href="/docs" class="mobile-link" data-astro-cid-nen7h5rs>Docs Hub</a><a href="/docs/tooling/cli-reference" class="mobile-link" data-astro-cid-nen7h5rs>Tooling</a><a href="/play" class="mobile-link" data-astro-cid-nen7h5rs>Playground</a><a href="/download" class="mobile-link" data-astro-cid-nen7h5rs>Download</a><a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" class="mobile-link external" data-astro-cid-nen7h5rs>GitHub ↗</a></div></div></header><script>
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const drawer = document.getElementById('mobile-drawer');
+  if (toggleBtn && drawer) {
+    toggleBtn.addEventListener('click', () => {
+      drawer.classList.toggle('hidden');
+    });
+  }
+</script><div class="doc-page-container" data-astro-cid-ptuyl3tj><aside class="docs-sidebar" aria-label="Documentation Navigation" data-astro-cid-wv7whodv><div class="sidebar-inner" data-astro-cid-wv7whodv><div class="sidebar-search-box" data-astro-cid-wv7whodv><button class="sidebar-search-btn" data-open-search data-astro-cid-wv7whodv><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-wv7whodv><circle cx="11" cy="11" r="8" data-astro-cid-wv7whodv></circle><line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-wv7whodv></line></svg><span data-astro-cid-wv7whodv>Quick search...</span><kbd data-astro-cid-wv7whodv>/</kbd></button></div><nav class="sidebar-nav" data-astro-cid-wv7whodv><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Getting Started</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/overview" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Overview</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/installation" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Installation &amp; Setup</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/hello-world" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Hello World &amp; Scaffolding</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>The Handbook</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/the-basics" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>The Basics</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/everyday-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Everyday Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/control-flow" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Control Flow &amp; Loops</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/functions-and-lambdas" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Functions &amp; Lambdas</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/architecture-contracts" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Architecture Contracts</span><span class="nav-badge" data-astro-cid-wv7whodv>Core</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Language Reference</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/keywords-and-syntax" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Keywords &amp; Syntax</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/built-in-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Built-in Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/data-structures" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>28 Data Structures</span><span class="nav-badge" data-astro-cid-wv7whodv>28 DS</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/standard-library" class="doc-link active" data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Standard Library</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Tooling &amp; IDE</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/cli-reference" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Prady CLI Commands</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/package-manager" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Package Manager (prady add)</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/editor-extensions" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>VS Code &amp; Language Server (LSP)</span></a></li></ul></div></nav></div></aside><main class="doc-main-content" data-astro-cid-ptuyl3tj><div class="doc-content-wrapper" data-astro-cid-ptuyl3tj><!-- Breadcrumbs --><nav class="doc-breadcrumbs" aria-label="Breadcrumbs" data-astro-cid-ptuyl3tj><a href="/docs" class="breadcrumb-link" data-astro-cid-ptuyl3tj>Docs</a><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>Language Reference</span><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>Standard Library Overview</span></nav><!-- Article Title & Meta --><header class="doc-header" data-astro-cid-ptuyl3tj><div class="title-row" data-astro-cid-ptuyl3tj><h1 class="doc-title" data-astro-cid-ptuyl3tj>Standard Library Overview</h1></div><p class="doc-lead" data-astro-cid-ptuyl3tj>Core modules and standard library packages in Prady.</p></header><!-- Main Body --><article class="doc-prose" data-astro-cid-ptuyl3tj><p>The Prady standard library provides zero-overhead, memory-safe modules for core computing needs.</p>
+<h2 id="standard-modules">Standard Modules</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Module</th>
+<th style="text-align: left">Namespace</th>
+<th style="text-align: left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><strong><code>std::io</code></strong></td>
+<td style="text-align: left">Standard I/O</td>
+<td style="text-align: left">Terminal output, string formatted printing, buffered input reading</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>std::fs</code></strong></td>
+<td style="text-align: left">Filesystem</td>
+<td style="text-align: left">Path resolution, reading files, writing binary/text streams</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>std::math</code></strong></td>
+<td style="text-align: left">Mathematics</td>
+<td style="text-align: left">Trigonometry, logarithms, exponential scaling, rounding</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>std::sys</code></strong></td>
+<td style="text-align: left">System</td>
+<td style="text-align: left">Command line arguments, environment variables, exit codes</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>std::time</code></strong></td>
+<td style="text-align: left">Clock &amp; Timers</td>
+<td style="text-align: left">High-resolution monotonic timers, epoch timestamps</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stdio-example"><code>std::io</code> Example</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::io::{</span><span style="color:#79C0FF">print</span><span style="color:#E6EDF3">, readLine};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Please enter your name: "</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> readLine</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Welcome, "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> "!"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="stdfs-example"><code>std::fs</code> Example</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::fs::{readFile, writeFile, exists};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> path </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "config.json"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#D2A8FF"> exists</span><span style="color:#E6EDF3">(path) {</span></span>
+<span class="line"><span style="color:#FF7B72">        let</span><span style="color:#E6EDF3"> content </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> readFile</span><span style="color:#E6EDF3">(path);</span></span>
+<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Config content: "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> content);</span></span>
+<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#D2A8FF">        writeFile</span><span style="color:#E6EDF3">(path, </span><span style="color:#A5D6FF">'{"version": 1}'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Initialized default config."</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="stdtime-monotonic-benchmarking"><code>std::time</code> Monotonic Benchmarking</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::time::</span><span style="color:#FFA657">Instant</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> start </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> Instant</span><span style="color:#E6EDF3">::</span><span style="color:#D2A8FF">now</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    </span></span>
+<span class="line"><span style="color:#8B949E">    // Perform intensive task</span></span>
+<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#FF7B72"> mut</span><span style="color:#E6EDF3"> total </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#FF7B72"> let</span><span style="color:#FF7B72"> mut</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">; i </span><span style="color:#FF7B72">&lt;</span><span style="color:#79C0FF"> 100000</span><span style="color:#E6EDF3">; i </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">+</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        total </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> total </span><span style="color:#FF7B72">+</span><span style="color:#E6EDF3"> i;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> elapsedMs </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> start.</span><span style="color:#D2A8FF">elapsedMillis</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Finished in "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> elapsedMs </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> " ms."</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+</article><!-- Bottom Page Controls --><footer class="doc-footer" data-astro-cid-ptuyl3tj><div class="edit-link-row" data-astro-cid-ptuyl3tj><a href="https://github.com/technopradyumn/prady/edit/main/src/content/docs/reference/standard-library.md" target="_blank" rel="noopener noreferrer" class="edit-link" data-astro-cid-ptuyl3tj><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-ptuyl3tj><path d="M12 20h9" data-astro-cid-ptuyl3tj></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" data-astro-cid-ptuyl3tj></path></svg><span data-astro-cid-ptuyl3tj>Edit this page on GitHub</span></a></div><div class="page-pagination" data-astro-cid-ptuyl3tj><a href="/docs/reference/data-structures" class="pagination-link prev" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>← Previous</span><span class="pagination-title" data-astro-cid-ptuyl3tj>28 Built-In Data Structures</span></a><a href="/docs/tooling/cli-reference" class="pagination-link next" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>Next →</span><span class="pagination-title" data-astro-cid-ptuyl3tj>Prady CLI Commands</span></a></div></footer></div></main><aside class="toc-sidebar" aria-label="Table of Contents" data-astro-cid-p33bl5ka><div class="toc-inner" data-astro-cid-p33bl5ka><h4 class="toc-title" data-astro-cid-p33bl5ka>On this page</h4><nav class="toc-nav" data-astro-cid-p33bl5ka><ul class="toc-list" id="toc-list" data-astro-cid-p33bl5ka><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#standard-modules" class="toc-link" data-slug="standard-modules" data-astro-cid-p33bl5ka>Standard Modules</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdio-example" class="toc-link" data-slug="stdio-example" data-astro-cid-p33bl5ka>std::io Example</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdfs-example" class="toc-link" data-slug="stdfs-example" data-astro-cid-p33bl5ka>std::fs Example</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdtime-monotonic-benchmarking" class="toc-link" data-slug="stdtime-monotonic-benchmarking" data-astro-cid-p33bl5ka>std::time Monotonic Benchmarking</a></li></ul></nav></div></aside><script>
+  function setupScrollSpy() {
+    const links = document.querySelectorAll('.toc-link');
+    if (links.length === 0) return;
+
+    const headingElements = [];
+    links.forEach(link => {
+      const slug = link.getAttribute('data-slug');
+      const el = document.getElementById(slug);
+      if (el) headingElements.push({ el, link });
+    });
+
+    if (headingElements.length === 0) return;
+
+    function onScroll() {
+      const scrollPos = window.scrollY + 100;
+      let currentActive = null;
+
+      for (let i = 0; i < headingElements.length; i++) {
+        const top = headingElements[i].el.getBoundingClientRect().top + window.scrollY;
+        if (top <= scrollPos) {
+          currentActive = headingElements[i].link;
+        } else {
+          break;
+        }
+      }
+
+      if (!currentActive && headingElements.length > 0) {
+        currentActive = headingElements[0].link;
+      }
+
+      links.forEach(l => l.classList.remove('active'));
+      if (currentActive) {
+        currentActive.classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  setupScrollSpy();
+  document.addEventListener('astro:after-swap', setupScrollSpy);
+</script></div><footer class="site-footer" data-astro-cid-jo6i4kqk><div class="footer-inner container" data-astro-cid-jo6i4kqk><div class="footer-grid" data-astro-cid-jo6i4kqk><!-- Col 1: Brand & Pitch --><div class="footer-col brand-col" data-astro-cid-jo6i4kqk><div class="footer-brand" data-astro-cid-jo6i4kqk><div class="brand-badge" data-astro-cid-jo6i4kqk>.pr</div><span class="brand-title" data-astro-cid-jo6i4kqk>Prady</span></div><p class="brand-desc" data-astro-cid-jo6i4kqk>A statically-typed systems and application programming language with built-in architecture-as-code verification, 28 native data structures, and zero-cost LLVM compilation.</p><div class="footer-badges" data-astro-cid-jo6i4kqk><span class="badge" data-astro-cid-jo6i4kqk>v1.0.0 GA</span><span class="badge" data-astro-cid-jo6i4kqk>Open Source (MIT)</span></div></div><!-- Col 2: Documentation --><div class="footer-col" data-astro-cid-jo6i4kqk><h4 class="col-title" data-astro-cid-jo6i4kqk>Documentation</h4><ul class="col-links" data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/docs/getting-started/overview" data-astro-cid-jo6i4kqk>Getting Started</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/handbook/the-basics" data-astro-cid-jo6i4kqk>The Handbook</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/handbook/architecture-contracts" data-astro-cid-jo6i4kqk>Architecture Contracts</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/reference/keywords-and-syntax" data-astro-cid-jo6i4kqk>Keywords & Syntax</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/reference/data-structures" data-astro-cid-jo6i4kqk>28 Data Structures</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/reference/standard-library" data-astro-cid-jo6i4kqk>Standard Library</a></li></ul></div><!-- Col 3: Tooling --><div class="footer-col" data-astro-cid-jo6i4kqk><h4 class="col-title" data-astro-cid-jo6i4kqk>Tooling</h4><ul class="col-links" data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/docs/tooling/cli-reference" data-astro-cid-jo6i4kqk>Prady CLI Reference</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/tooling/package-manager" data-astro-cid-jo6i4kqk>Package Manager (<code data-astro-cid-jo6i4kqk>prady add</code>)</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/tooling/editor-extensions" data-astro-cid-jo6i4kqk>VS Code Extension</a></li><li data-astro-cid-jo6i4kqk><a href="/docs/tooling/editor-extensions#lsp" data-astro-cid-jo6i4kqk>Prady LSP Server</a></li><li data-astro-cid-jo6i4kqk><a href="/play" data-astro-cid-jo6i4kqk>In-Browser Playground</a></li><li data-astro-cid-jo6i4kqk><a href="/download" data-astro-cid-jo6i4kqk>Download Binaries</a></li></ul></div><!-- Col 4: Community & Project --><div class="footer-col" data-astro-cid-jo6i4kqk><h4 class="col-title" data-astro-cid-jo6i4kqk>Community</h4><ul class="col-links" data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>GitHub Repository</a></li><li data-astro-cid-jo6i4kqk><a href="https://github.com/technopradyumn/prady/releases" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>Releases & Changelog</a></li><li data-astro-cid-jo6i4kqk><a href="https://github.com/technopradyumn/prady/issues" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>Issue Tracker</a></li><li data-astro-cid-jo6i4kqk><a href="https://github.com/technopradyumn/prady-website" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>Website Source</a></li><li data-astro-cid-jo6i4kqk><a href="https://github.com/technopradyumn/prady/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>MIT License</a></li></ul></div></div><div class="footer-bottom" data-astro-cid-jo6i4kqk><p class="copyright" data-astro-cid-jo6i4kqk>© 2026 Prady Programming Language. Designed with high-performance architectural computing in mind.</p><div class="footer-sublinks" data-astro-cid-jo6i4kqk><a href="/docs" data-astro-cid-jo6i4kqk>Docs</a><a href="/play" data-astro-cid-jo6i4kqk>Playground</a><a href="/download" data-astro-cid-jo6i4kqk>Download</a><a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" data-astro-cid-jo6i4kqk>GitHub</a></div></div></div></footer><div id="search-modal-backdrop" class="search-backdrop hidden" data-astro-cid-etsyzymg><div class="search-modal" role="dialog" aria-modal="true" aria-label="Search documentation" data-astro-cid-etsyzymg><div class="search-input-wrapper" data-astro-cid-etsyzymg><svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-etsyzymg><circle cx="11" cy="11" r="8" data-astro-cid-etsyzymg></circle><line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-etsyzymg></line></svg><input type="text" id="modal-search-input" placeholder="Search docs, guides, keywords, or data structures..." autocomplete="off" spellcheck="false" data-astro-cid-etsyzymg><kbd class="esc-badge" id="modal-close-btn" data-astro-cid-etsyzymg>ESC</kbd></div><div class="search-results-container" id="search-results-list" data-astro-cid-etsyzymg><div class="search-empty-state" data-astro-cid-etsyzymg>Type a keyword to search documentation...</div></div><div class="search-footer" data-astro-cid-etsyzymg><span data-astro-cid-etsyzymg><kbd data-astro-cid-etsyzymg>↑</kbd> <kbd data-astro-cid-etsyzymg>↓</kbd> to navigate</span><span data-astro-cid-etsyzymg><kbd data-astro-cid-etsyzymg>↵</kbd> to select</span><span data-astro-cid-etsyzymg><kbd data-astro-cid-etsyzymg>ESC</kbd> to close</span></div></div></div><script>
+  const searchIndex = [
+    { title: "Getting Started with Prady", category: "Guides", url: "/docs/getting-started/overview", summary: "Introduction to Prady, installation, architecture verification, and writing your first program." },
+    { title: "Installation & Setup", category: "Guides", url: "/docs/getting-started/installation", summary: "Download native binaries for Windows, macOS, Linux or use one-line curl/powershell installers." },
+    { title: "Hello World & Scaffolding", category: "Guides", url: "/docs/getting-started/hello-world", summary: "Creating your first Prady source file, building with LLVM, and running via CLI." },
+    { title: "The Basics", category: "Handbook", url: "/docs/handbook/the-basics", summary: "Core syntax, variables, mutable state, type annotations, and expression blocks." },
+    { title: "Everyday Types", category: "Handbook", url: "/docs/handbook/everyday-types", summary: "Primitives: Int, Float, Bool, Char, String, Option, Result, and structural typing." },
+    { title: "Control Flow & Pattern Matching", category: "Handbook", url: "/docs/handbook/control-flow", summary: "if/else, while, for, foreach..in, and exhaustive switch/case statements." },
+    { title: "Functions & Lambdas", category: "Handbook", url: "/docs/handbook/functions-and-lambdas", summary: "Named functions, first-class closures, lambdas, higher-order methods filter/map/reduce." },
+    { title: "Architecture-as-Code Contracts", category: "Handbook", url: "/docs/handbook/architecture-contracts", summary: "Enforcing architectural boundaries, layers, cannot import rules, and compiler validations." },
+    { title: "Keywords & Grammar Reference", category: "Reference", url: "/docs/reference/keywords-and-syntax", summary: "Complete keyword index, operator precedence, grammar specifications." },
+    { title: "Standard Library Overview", category: "Reference", url: "/docs/reference/standard-library", summary: "Core standard library modules: io, math, fs, collections, sys." },
+    { title: "28 Built-In Data Structures", category: "Reference", url: "/docs/reference/data-structures", summary: "Complete reference for all 28 data structures: RedBlackTree, Trie, LRUCache, Graph, Heap, etc." },
+    { title: "Prady CLI (prady run, build, check)", category: "Tooling", url: "/docs/tooling/cli-reference", summary: "Command-line tool reference for running, building, checking architecture, and testing." },
+    { title: "Package Manager (prady add)", category: "Tooling", url: "/docs/tooling/package-manager", summary: "Managing dependencies, prady.toml configuration, semantic version resolution." },
+    { title: "VS Code Extension & LSP", category: "Tooling", url: "/docs/tooling/editor-extensions", summary: "Language Server Protocol integration, real-time diagnostics, hover tooltips, and autocomplete." },
+    { title: "Interactive Playground", category: "Playground", url: "/play", summary: "In-browser live compiler and evaluator with AST explorer and architecture checker." },
+    { title: "Downloads Portal", category: "Releases", url: "/download", summary: "Official binary packages for Windows, macOS, and Linux." }
+  ];
+
+  function setupSearch() {
+    const backdrop = document.getElementById('search-modal-backdrop');
+    const input = document.getElementById('modal-search-input');
+    const resultsContainer = document.getElementById('search-results-list');
+    const closeBtn = document.getElementById('modal-close-btn');
+
+    if (!backdrop || !input || !resultsContainer) return;
+
+    let selectedIndex = -1;
+    let filteredResults = [];
+
+    function openModal() {
+      backdrop.classList.remove('hidden');
+      input.value = '';
+      input.focus();
+      renderResults('');
+    }
+
+    function closeModal() {
+      backdrop.classList.add('hidden');
+      selectedIndex = -1;
+    }
+
+    // Global keyboard triggers: "/" or "Ctrl+K" or "Cmd+K"
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) && backdrop.classList.contains('hidden')) {
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+          e.preventDefault();
+          openModal();
+        }
+      } else if (e.key === 'Escape' && !backdrop.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Close on backdrop click
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    // Search input handler
+    input.addEventListener('input', (e) => {
+      renderResults(e.target.value.toLowerCase().trim());
+    });
+
+    // Keyboard navigation in results
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (filteredResults.length > 0) {
+          selectedIndex = (selectedIndex + 1) % filteredResults.length;
+          updateSelectedHighlight();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (filteredResults.length > 0) {
+          selectedIndex = (selectedIndex - 1 + filteredResults.length) % filteredResults.length;
+          updateSelectedHighlight();
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < filteredResults.length) {
+          window.location.href = filteredResults[selectedIndex].url;
+          closeModal();
+        }
+      }
+    });
+
+    function renderResults(query) {
+      selectedIndex = -1;
+      if (!query) {
+        filteredResults = searchIndex.slice(0, 6);
+      } else {
+        filteredResults = searchIndex.filter(item => 
+          item.title.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query) ||
+          item.summary.toLowerCase().includes(query)
+        );
+      }
+
+      if (filteredResults.length === 0) {
+        resultsContainer.innerHTML = `<div class="search-empty-state">No documentation pages found for "${query}"</div>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = filteredResults.map((item, idx) => `
+        <a href="${item.url}" class="search-result-item ${idx === 0 ? 'selected' : ''}" data-index="${idx}">
+          <div class="search-result-header">
+            <span class="search-result-title">${item.title}</span>
+            <span class="search-result-category">${item.category}</span>
+          </div>
+          <div class="search-result-snippet">${item.summary}</div>
+        </a>
+      `).join('');
+
+      if (filteredResults.length > 0) selectedIndex = 0;
+    }
+
+    function updateSelectedHighlight() {
+      const items = resultsContainer.querySelectorAll('.search-result-item');
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add('selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    // Attach click listeners to any external search trigger buttons
+    document.querySelectorAll('[data-open-search]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+  }
+
+  setupSearch();
+  document.addEventListener('astro:after-swap', setupSearch);
+</script><!-- Universal Code Block Copy Button Script --><script>
+    function injectCodeCopyButtons() {
+      const codeBlocks = document.querySelectorAll('pre');
+      codeBlocks.forEach((pre) => {
+        if (pre.querySelector('.code-copy-floating-btn')) return;
+        if (pre.closest('.code-block-container')) return;
+        if (pre.closest('.code-tabs-widget')) return;
+        if (pre.id === 'console-output') return;
+
+        const btn = document.createElement('button');
+        btn.className = 'code-copy-floating-btn';
+        btn.setAttribute('aria-label', 'Copy code to clipboard');
+        btn.setAttribute('title', 'Copy code');
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span class="copy-label">Copy</span>
+        `;
+
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const codeEl = pre.querySelector('code') || pre;
+          // Extract text ignoring the button itself
+          const clone = codeEl.cloneNode(true);
+          const existingBtn = clone.querySelector('.code-copy-floating-btn');
+          if (existingBtn) existingBtn.remove();
+          const textToCopy = clone.textContent || '';
+
+          try {
+            await navigator.clipboard.writeText(textToCopy.trim());
+            btn.classList.add('copied');
+            const label = btn.querySelector('.copy-label');
+            if (label) label.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              if (label) label.textContent = 'Copy';
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy code: ', err);
+          }
+        });
+
+        pre.appendChild(btn);
+      });
+    }
+
+    injectCodeCopyButtons();
+    document.addEventListener('astro:after-swap', injectCodeCopyButtons);
+    document.addEventListener('DOMContentLoaded', injectCodeCopyButtons);
+  </script></body></html>

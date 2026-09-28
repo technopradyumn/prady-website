@@ -1,0 +1,734 @@
+---
+// play.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="Interactive Playground · Prady Language"
+  description="Run Prady code in your browser with our in-browser compiler, AST viewer, and architecture contract validator."
+  activeNav="play"
+>
+  <div class="playground-root">
+    <!-- Playground Top Toolbar -->
+    <div class="pg-toolbar">
+      <div class="pg-toolbar-left">
+        <div class="pg-brand">
+          <span class="pg-badge">.pr</span>
+          <span class="pg-title">Prady Playground</span>
+          <span class="version-tag">v1.0.0 Web Engine</span>
+        </div>
+
+        <div class="example-selector-wrapper">
+          <label for="example-select" class="selector-label">Example:</label>
+          <select id="example-select" class="example-select">
+            <option value="hello">Hello World</option>
+            <option value="collections">Higher-Order Collections</option>
+            <option value="rbtree">Red-Black Tree & Cache</option>
+            <option value="architecture">Architecture Enforcement</option>
+            <option value="switch">Switch & Flow Control</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pg-toolbar-right">
+        <button id="run-btn" class="btn btn-primary btn-sm run-btn" title="Execute Code (Ctrl + Enter)">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Run</span>
+        </button>
+
+        <button id="share-btn" class="btn btn-secondary btn-sm" title="Share via URL query parameter">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span id="share-btn-text">Share</span>
+        </button>
+
+        <button id="reset-btn" class="btn btn-outline btn-sm" title="Reset editor to default code">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Playground Split Layout -->
+    <div class="pg-split-container">
+      <!-- Left: Code Editor -->
+      <div class="pg-editor-pane">
+        <div class="pane-header">
+          <div class="pane-tab active">main.pr</div>
+          <div class="editor-shortcuts-hint">Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</div>
+        </div>
+        <div class="editor-area-wrapper">
+          <textarea 
+            id="prady-editor" 
+            class="prady-editor-textarea" 
+            spellcheck="false" 
+            autocapitalize="off" 
+            autocomplete="off"
+            placeholder="Write Prady code here..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Right: Execution & Output Panel -->
+      <div class="pg-output-pane">
+        <div class="pane-header output-tabs">
+          <button class="output-tab-btn active" data-tab="console">
+            <span>Console</span>
+            <span id="run-time-badge" class="time-badge">0ms</span>
+          </button>
+          <button class="output-tab-btn" data-tab="arch">
+            <span>Architecture Check</span>
+            <span id="arch-status-dot" class="status-dot dot-idle"></span>
+          </button>
+          <button class="output-tab-btn" data-tab="diagnostics">
+            <span>Diagnostics</span>
+            <span id="diag-count" class="diag-badge hidden">0</span>
+          </button>
+        </div>
+
+        <div class="pane-body">
+          <!-- Console View -->
+          <div id="tab-console" class="output-tab-content active">
+            <pre id="console-output" class="console-pre"><code>Ready. Click "Run" or press Ctrl+Enter to compile and evaluate.</code></pre>
+          </div>
+
+          <!-- Architecture View -->
+          <div id="tab-arch" class="output-tab-content">
+            <div id="arch-output" class="arch-container">
+              <div class="arch-empty">No architecture definition found in current code. Add <code>architecture &#123; ... &#125;</code> to validate layer constraints.</div>
+            </div>
+          </div>
+
+          <!-- Diagnostics View -->
+          <div id="tab-diagnostics" class="output-tab-content">
+            <div id="diag-list" class="diag-container">
+              <div class="diag-empty">No syntax or compiler diagnostics.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .playground-root {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--header-height));
+    background-color: var(--bg-primary);
+  }
+
+  .pg-toolbar {
+    height: 52px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .pg-toolbar-left,
+  .pg-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .pg-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pg-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .pg-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  .version-tag {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+  }
+
+  .example-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.75rem;
+  }
+
+  .selector-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .example-select {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .pg-split-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 0;
+  }
+
+  .pg-editor-pane,
+  .pg-output-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .pg-editor-pane {
+    border-right: 1px solid var(--border-color);
+  }
+
+  .pane-header {
+    height: 40px;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    flex-shrink: 0;
+  }
+
+  .pane-tab {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .editor-shortcuts-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .editor-shortcuts-hint kbd {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .editor-area-wrapper {
+    flex: 1;
+    display: flex;
+    background-color: var(--code-bg);
+    position: relative;
+  }
+
+  .prady-editor-textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: var(--code-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    padding: 1.25rem;
+    resize: none;
+    tab-size: 4;
+    white-space: pre;
+    overflow-y: auto;
+  }
+
+  .output-tabs {
+    justify-content: flex-start;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+  }
+
+  .output-tab-btn {
+    padding: 0 0.85rem;
+    height: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .output-tab-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .output-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background-color: var(--bg-secondary);
+  }
+
+  .time-badge {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-idle { background-color: var(--text-muted); }
+  .dot-ok { background-color: #10b981; }
+  .dot-error { background-color: #ef4444; }
+
+  .diag-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background-color: #ef4444;
+    color: #ffffff;
+    padding: 0.1rem 0.4rem;
+    border-radius: 9999px;
+  }
+
+  .diag-badge.hidden {
+    display: none;
+  }
+
+  .pane-body {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--code-bg);
+  }
+
+  .output-tab-content {
+    display: none;
+    padding: 1.25rem;
+    color: var(--code-text);
+    min-height: 100%;
+  }
+
+  .output-tab-content.active {
+    display: block;
+  }
+
+  .console-pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #f8fafc;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .arch-container,
+  .diag-container {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .arch-empty,
+  .diag-empty {
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 1rem 0;
+  }
+
+  :global(.arch-report-item) {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--code-border);
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  :global(.arch-report-item.valid) {
+    border-left: 4px solid #10b981;
+    color: #34d399;
+  }
+
+  :global(.arch-report-item.violation) {
+    border-left: 4px solid #ef4444;
+    color: #f87171;
+  }
+
+  :global(.diag-item) {
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--code-border);
+    background-color: rgba(239, 68, 68, 0.08);
+    color: #fca5a5;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 800px) {
+    .pg-split-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .pg-editor-pane {
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+  }
+</style>
+
+<script>
+  import { PradyCompiler } from '../engine/prady-engine';
+
+  const EXAMPLES: Record<string, string> = {
+    hello: `// Prady v1.0.0 GA - Hello World & Higher-Order Methods
+fn main() {
+    print("Welcome to Prady v1.0.0 GA Interactive Playground!");
+    
+    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    print("Original list: " + numbers.join(", "));
+
+    let evens = numbers.filter(fn(x: Int, i: Int) -> Bool {
+        return x % 2 == 0;
+    });
+    print("Filtered evens: " + evens.join(", "));
+
+    let squared = evens.map(fn(x: Int, i: Int) -> Int {
+        return x * x;
+    });
+    print("Squared evens: " + squared.join(", "));
+}
+
+main();`,
+
+    collections: `// Higher-Order Collection Operations in Prady
+fn main() {
+    let languages = ["Prady", "Rust", "TypeScript", "C++", "Go"];
+    
+    // Sort array
+    let sorted = languages.sort();
+    print("Sorted languages: " + sorted.join(" -> "));
+
+    // Reduce collection
+    let scores = [88, 92, 79, 95, 100];
+    let total = scores.reduce(fn(acc: Int, curr: Int, i: Int) -> Int {
+        return acc + curr;
+    }, 0);
+    print("Total test score sum: " + total);
+
+    // Finding element
+    let found = languages.find(fn(item: String, i: Int) -> Bool {
+        return item.startsWith("P");
+    });
+    print("Language starting with P: " + found);
+}
+
+main();`,
+
+    rbtree: `// Built-In Data Structures: RedBlackTree & LRUCache
+fn main() {
+    print("=== Testing Built-In RedBlackTree ===");
+    let tree = RedBlackTree<Int, String>();
+    tree.insert(50, "Root");
+    tree.insert(25, "Left-Node");
+    tree.insert(75, "Right-Node");
+    tree.insert(10, "Min-Node");
+
+    print("Tree size: " + tree.size());
+    print("Contains key 25: " + tree.contains(25));
+    print("Value at key 50: " + tree.get(50));
+
+    print("\\n=== Testing Built-In LRUCache ===");
+    let cache = LRUCache<String, String>(2);
+    cache.put("session_1", "User Alice");
+    cache.put("session_2", "User Bob");
+    print("Cached session_1: " + cache.get("session_1"));
+
+    // Exceed capacity, will evict session_2
+    cache.put("session_3", "User Charlie");
+    print("Cached session_2 (evicted): " + cache.get("session_2"));
+    print("Cached session_3: " + cache.get("session_3"));
+}
+
+main();`,
+
+    architecture: `// Architecture-as-Code Contract Enforcement
+// Try changing imports or layers to see compiler enforcement!
+architecture SystemDesign {
+    layer Domain {
+        spec: "Pure entities and business logic"
+    }
+    layer Persistence {
+        spec: "Database access and queries"
+    }
+    layer WebAPI {
+        spec: "HTTP Controllers"
+    }
+
+    contract SeparationOfConcerns {
+        Domain cannot import Persistence;
+        Domain cannot import WebAPI;
+        Persistence cannot import WebAPI;
+    }
+}
+
+fn main() {
+    print("Architecture verification passed!");
+    print("All layers respect the contract specification.");
+}
+
+main();`,
+
+    switch: `// Switch and Flow Control
+fn categorizeHttp(status: Int) -> String {
+    switch status {
+        case 200:
+            return "200 OK - Successful response";
+        case 201:
+            return "201 Created - Resource initialized";
+        case 400:
+            return "400 Bad Request - Syntax failure";
+        case 401:
+            return "401 Unauthorized - Key required";
+        case 404:
+            return "404 Not Found - Missing resource";
+        case 500:
+            return "500 Internal Error - Server fault";
+        default:
+            return "Unknown HTTP Status Code";
+    }
+}
+
+fn main() {
+    print(categorizeHttp(200));
+    print(categorizeHttp(404));
+    print(categorizeHttp(500));
+}
+
+main();`
+  };
+
+  function initPlayground() {
+    const editor = document.getElementById('prady-editor') as HTMLTextAreaElement;
+    const runBtn = document.getElementById('run-btn') as HTMLButtonElement;
+    const shareBtn = document.getElementById('share-btn') as HTMLButtonElement;
+    const shareText = document.getElementById('share-btn-text') as HTMLSpanElement;
+    const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
+    const exampleSelect = document.getElementById('example-select') as HTMLSelectElement;
+
+    const consoleOutput = document.getElementById('console-output') as HTMLElement;
+    const timeBadge = document.getElementById('run-time-badge') as HTMLElement;
+    const archOutput = document.getElementById('arch-output') as HTMLElement;
+    const archDot = document.getElementById('arch-status-dot') as HTMLElement;
+    const diagList = document.getElementById('diag-list') as HTMLElement;
+    const diagBadge = document.getElementById('diag-count') as HTMLElement;
+
+    if (!editor || !runBtn) return;
+
+    // Load from URL query param if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedCode = urlParams.get('code');
+    if (sharedCode) {
+      try {
+        editor.value = decodeURIComponent(atob(sharedCode));
+      } catch (e) {
+        editor.value = decodeURIComponent(sharedCode);
+      }
+    } else {
+      editor.value = EXAMPLES.hello;
+    }
+
+    // Example switch
+    if (exampleSelect) {
+      exampleSelect.addEventListener('change', () => {
+        const key = exampleSelect.value;
+        if (EXAMPLES[key]) {
+          editor.value = EXAMPLES[key];
+          executeCode();
+        }
+      });
+    }
+
+    // Reset button
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        editor.value = EXAMPLES.hello;
+        if (exampleSelect) exampleSelect.value = 'hello';
+        executeCode();
+      });
+    }
+
+    // Share button
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async () => {
+        try {
+          const encoded = btoa(encodeURIComponent(editor.value));
+          const shareUrl = `${window.location.origin}${window.location.pathname}?code=${encoded}`;
+          await navigator.clipboard.writeText(shareUrl);
+          if (shareText) {
+            shareText.textContent = 'Copied Link!';
+            shareBtn.style.color = '#10b981';
+            setTimeout(() => {
+              shareText.textContent = 'Share';
+              shareBtn.style.color = '';
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Failed to encode share link', err);
+        }
+      });
+    }
+
+    // Output tabs
+    const tabBtns = document.querySelectorAll('.output-tab-btn');
+    const tabContents = document.querySelectorAll('.output-tab-content');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const target = document.getElementById(`tab-${tab}`);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // Execute logic using in-browser PradyCompiler
+    function executeCode() {
+      const code = editor.value;
+      const logs: string[] = [];
+      const printCb = (text: string) => {
+        logs.push(text);
+      };
+
+      try {
+        const compiler = new PradyCompiler(printCb);
+        const result = compiler.compileAndRun(code);
+
+        // Update Console Output
+        if (timeBadge) timeBadge.textContent = `${result.durationMs}ms`;
+        let outputText = '';
+        if (logs.length > 0) {
+          outputText += logs.join('\n') + '\n';
+        }
+        if (result.runError) {
+          outputText += `\n[Runtime Error]: ${result.runError}`;
+        } else if (!result.success && result.errorText) {
+          outputText += `\n[Compilation Error]: ${result.errorText}`;
+        } else if (logs.length === 0) {
+          outputText += '(Program executed successfully with no console output)';
+        }
+        if (consoleOutput) consoleOutput.textContent = outputText;
+
+        // Update Diagnostics Tab
+        if (diagList && diagBadge) {
+          if (result.diagnostics.length === 0) {
+            diagList.innerHTML = '<div class="diag-empty">No syntax or compiler diagnostics. Code is clean.</div>';
+            diagBadge.classList.add('hidden');
+          } else {
+            diagBadge.textContent = String(result.diagnostics.length);
+            diagBadge.classList.remove('hidden');
+            diagList.innerHTML = result.diagnostics.map(d => `
+              <div class="diag-item">
+                <strong>[Line ${d.line}, Col ${d.col}]:</strong> ${d.message}
+              </div>
+            `).join('');
+          }
+        }
+
+        // Update Architecture Tab
+        if (archOutput && archDot) {
+          if (result.archReports && result.archReports.length > 0) {
+            archDot.className = 'status-dot dot-ok';
+            archOutput.innerHTML = result.archReports.map(r => `
+              <div class="arch-report-item valid">
+                ✓ ${r}
+              </div>
+            `).join('');
+          } else if (result.architecture) {
+            archDot.className = 'status-dot dot-ok';
+            archOutput.innerHTML = `<div class="arch-report-item valid">✓ Architecture definition "${result.architecture.name || 'Validated'}" successfully verified.</div>`;
+          } else {
+            archDot.className = 'status-dot dot-idle';
+            archOutput.innerHTML = '<div class="arch-empty">No architecture definition found in current code. Add <code>architecture &#123; ... &#125;</code> to validate layer constraints.</div>';
+          }
+        }
+
+      } catch (err: any) {
+        if (consoleOutput) consoleOutput.textContent = `Internal evaluation error: ${err.message || err}`;
+      }
+    }
+
+    runBtn.addEventListener('click', executeCode);
+
+    // Keyboard shortcut: Ctrl + Enter
+    editor.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        executeCode();
+      }
+      // Tab key indentation support in textarea
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
+        editor.selectionStart = editor.selectionEnd = start + 4;
+      }
+    });
+
+    // Run initially
+    executeCode();
+  }
+
+  // Initialize
+  initPlayground();
+  document.addEventListener('astro:after-swap', initPlayground);
+</script>

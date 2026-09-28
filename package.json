@@ -1,0 +1,16 @@
+{
+  "name": "prady-website",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Official documentation, web playground, and binary download portal for the Prady Programming Language.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.2",
+    "astro": "^7.3.5"
+  }
+}

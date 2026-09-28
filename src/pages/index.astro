@@ -1,0 +1,1076 @@
+---
+// index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CodeTabs from '../components/CodeTabs.astro';
+---
+
+<BaseLayout 
+  title="Prady Programming Language — Architecture-as-Code & High Performance"
+  description="Prady is a statically-typed systems programming language with built-in architecture-as-code verification, 28 native data structures, and zero-cost LLVM compilation."
+>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-container container">
+      <div class="hero-badge-row">
+        <a href="/download" class="release-pill">
+          <span class="pill-tag">NEW</span>
+          <span class="pill-text">Prady v1.0.0 GA Released</span>
+          <span class="pill-arrow">→</span>
+        </a>
+      </div>
+
+      <h1 class="hero-title">
+        The Statically-Typed Language for <span class="gradient-text">Architectural Systems</span>.
+      </h1>
+
+      <p class="hero-subtitle">
+        Prady combines the developer ergonomics of TypeScript with zero-cost LLVM native compilation, 
+        28 production data structures, and compiler-enforced architectural contracts.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="/docs/getting-started/overview" class="btn btn-primary hero-btn">
+          Get Started
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="/play" class="btn btn-secondary hero-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Try in Playground
+        </a>
+        <a href="/download" class="btn btn-outline hero-btn">
+          Download v1.0.0
+        </a>
+      </div>
+
+      <!-- Quick Install Box -->
+      <div class="quick-install-box">
+        <div class="install-tabs">
+          <button class="install-tab-btn active" id="tab-sh" data-cmd="curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh">macOS / Linux</button>
+          <button class="install-tab-btn" id="tab-ps1" data-cmd="irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex">Windows (PowerShell)</button>
+        </div>
+        <div class="install-command-row">
+          <span class="terminal-prompt">$</span>
+          <code class="install-code" id="install-cmd-text">curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh</code>
+          <button class="install-copy-btn" id="install-copy-btn" title="Copy to clipboard">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Code Showcase Section -->
+  <section class="showcase-section">
+    <div class="container">
+      <div class="section-intro">
+        <span class="badge">Idiomatic Prady</span>
+        <h2 class="section-title">Designed for Clean Systems and Fast Execution</h2>
+        <p class="section-desc">
+          Explore language ergonomics: from compiler-enforced layer contracts to functional collection pipelines and native algorithmic types.
+        </p>
+      </div>
+
+      <CodeTabs />
+    </div>
+  </section>
+
+  <!-- Feature Highlights (3-4 Cards) -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-intro">
+        <span class="badge">Core Pillars</span>
+        <h2 class="section-title">Why Modern Engineers Build with Prady</h2>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-title">Architecture-as-Code</h3>
+          <p class="feature-desc">
+            Define boundaries and module constraints (<code>cannot import</code>, <code>spec</code>, <code>contract</code>) directly in source files. The compiler rejects architectural erosion before code ever merges.
+          </p>
+          <a href="/docs/handbook/architecture-contracts" class="feature-link">Read Architecture Guide →</a>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">28 Built-In Data Structures</h3>
+          <p class="feature-desc">
+            Stop reimplementing or searching for external packages. Self-balancing Red-Black Trees, Tries, LRU/LFU Caches, Heaps, and Graphs are first-class standard types.
+          </p>
+          <a href="/docs/reference/data-structures" class="feature-link">Browse 28 Data Structures →</a>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <h3 class="feature-title">Native LLVM Compilation</h3>
+          <p class="feature-desc">
+            Compiles down to standalone, zero-dependency native binaries for Windows, macOS, and Linux. Enjoy predictable performance and instant startup times.
+          </p>
+          <a href="/docs/getting-started/installation" class="feature-link">Installation Details →</a>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Complete Developer Tooling</h3>
+          <p class="feature-desc">
+            Equipped with an official VS Code extension, Language Server Protocol (LSP), diagnostics, hover tooltips, and an automated package manager (<code>prady add</code>).
+          </p>
+          <a href="/docs/tooling/editor-extensions" class="feature-link">Explore Tooling →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- "Why Prady" Comparison Section -->
+  <section class="why-section">
+    <div class="container">
+      <div class="why-card">
+        <div class="why-content">
+          <span class="badge">The Rationale</span>
+          <h2 class="why-title">Why Prady over Traditional Stacks?</h2>
+          <p class="why-lead">
+            In modern systems programming, teams often struggle balancing low-level machine efficiency against cognitive overhead and architectural decay.
+          </p>
+
+          <div class="comparison-points">
+            <div class="point-item">
+              <div class="point-bullet">✓</div>
+              <div class="point-details">
+                <strong>Memory Safety & Native Speed without Header Hell</strong>
+                <p>Unlike C or C++, Prady eliminates dangerous memory bugs, pointer arithmetic surprises, and complicated include hierarchies while matching raw compiled performance.</p>
+              </div>
+            </div>
+
+            <div class="point-item">
+              <div class="point-bullet">✓</div>
+              <div class="point-details">
+                <strong>TypeScript-Grade Developer Ergonomics</strong>
+                <p>Features structural type inference, modern lambdas, higher-order collection pipelines, and readable error diagnostics that feel familiar from minute one.</p>
+              </div>
+            </div>
+
+            <div class="point-item">
+              <div class="point-bullet">✓</div>
+              <div class="point-details">
+                <strong>Compiler-Enforced Enterprise Architecture</strong>
+                <p>No separate architectural linter required. Define layer rules in code, and the compiler ensures your code base never turns into an unmaintainable monolith.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start: Vertical Steps Order -->
+  <section class="steps-section">
+    <div class="container">
+      <div class="section-intro">
+        <span class="badge">Quick Start Guide</span>
+        <h2 class="section-title">Up and Running in 4 Simple Steps</h2>
+        <p class="section-desc">
+          From installing the compiler and editor extension to compiling your first native standalone binary.
+        </p>
+      </div>
+
+      <div class="steps-vertical-container">
+        <!-- Step 1 -->
+        <div class="vertical-step-card">
+          <div class="step-indicator">
+            <span class="step-num">1</span>
+          </div>
+          <div class="step-body">
+            <div class="step-header">
+              <h3 class="step-title">Install the Prady Toolchain</h3>
+              <span class="step-pill">Compiler & LSP</span>
+            </div>
+            <p class="step-desc">
+              Download and install the native compiler (<code>prady</code>) and language server (<code>prady-lsp</code>) with a single command.
+            </p>
+            
+            <div class="step-code-card">
+              <div class="step-code-header">
+                <div class="step-tabs">
+                  <button class="step-tab-btn active" id="vstep-tab-sh" data-target="vstep-cmd-sh">macOS / Linux</button>
+                  <button class="step-tab-btn" id="vstep-tab-ps1" data-target="vstep-cmd-ps1">Windows (PowerShell)</button>
+                </div>
+                <button class="copy-cmd-btn" id="vstep-copy-step1" title="Copy command">
+                  <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <div class="step-code-content">
+                <code id="vstep-cmd-sh" class="cmd-line active">curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh</code>
+                <code id="vstep-cmd-ps1" class="cmd-line">irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex</code>
+              </div>
+            </div>
+            <div class="step-tip">
+              <span>💡 Prefer manual installation?</span>
+              <a href="/download">Download pre-compiled binaries for Windows, macOS, or Linux →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="vertical-step-card">
+          <div class="step-indicator">
+            <span class="step-num">2</span>
+          </div>
+          <div class="step-body">
+            <div class="step-header">
+              <h3 class="step-title">Install the Official VS Code Extension</h3>
+              <span class="step-pill">IDE & Language Server</span>
+            </div>
+            <p class="step-desc">
+              Get rich IDE support: syntax highlighting for all 32 keywords, inline error diagnostics, hover tooltips, and real-time architecture enforcement.
+            </p>
+
+            <div class="step-code-card">
+              <div class="step-code-header">
+                <span class="code-label">Terminal / VS Code CLI</span>
+                <button class="copy-cmd-btn" data-copy="code --install-extension technopradyumn.prady-lang" title="Copy command">
+                  <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <div class="step-code-content">
+                <code class="cmd-line active">code --install-extension technopradyumn.prady-lang</code>
+              </div>
+            </div>
+            <div class="step-tip">
+              <span>💡 In VS Code:</span>
+              <span>Open Extensions panel (<kbd>Ctrl+Shift+X</kbd> or <kbd>Cmd+Shift+X</kbd>) and search for <strong>Prady Language</strong>.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="vertical-step-card">
+          <div class="step-indicator">
+            <span class="step-num">3</span>
+          </div>
+          <div class="step-body">
+            <div class="step-header">
+              <h3 class="step-title">Write Your First Program (<code>main.pr</code>)</h3>
+              <span class="step-pill">Source Code</span>
+            </div>
+            <p class="step-desc">
+              Create a file named <code>main.pr</code> and add a function with collection manipulation and printing:
+            </p>
+
+            <div class="step-code-card">
+              <div class="step-code-header">
+                <span class="code-label">main.pr</span>
+                <button class="copy-cmd-btn" data-copy='fn main() {
+    print("Welcome to Prady v1.0.0!");
+    let numbers = [1, 2, 3, 4, 5, 6];
+    let evens = numbers.filter(fn(x: Int, i: Int) -> Bool {
+        return x % 2 == 0;
+    });
+    print("Even numbers: " + evens.join(", "));
+}' title="Copy code">
+                  <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <div class="step-code-content">
+                <pre class="step-pre"><code class="language-prady">fn main() &#123;
+    print("Welcome to Prady v1.0.0!");
+    let numbers = [1, 2, 3, 4, 5, 6];
+    let evens = numbers.filter(fn(x: Int, i: Int) -> Bool &#123;
+        return x % 2 == 0;
+    &#125;);
+    print("Even numbers: " + evens.join(", "));
+&#125;</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="vertical-step-card">
+          <div class="step-indicator">
+            <span class="step-num">4</span>
+          </div>
+          <div class="step-body">
+            <div class="step-header">
+              <h3 class="step-title">Execute or Compile to Native LLVM Binary</h3>
+              <span class="step-pill">Build & Run</span>
+            </div>
+            <p class="step-desc">
+              Run immediately in development mode, or compile directly into an optimized standalone binary.
+            </p>
+
+            <div class="commands-group">
+              <!-- Run command -->
+              <div class="step-code-card">
+                <div class="step-code-header">
+                  <span class="code-label">1. Run immediately in development</span>
+                  <button class="copy-cmd-btn" data-copy="prady run main.pr" title="Copy command">
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <div class="step-code-content">
+                  <code class="cmd-line active">prady run main.pr</code>
+                </div>
+              </div>
+
+              <!-- Build command -->
+              <div class="step-code-card">
+                <div class="step-code-header">
+                  <span class="code-label">2. Build standalone optimized native binary</span>
+                  <button class="copy-cmd-btn" data-copy="prady build main.pr -o my-app" title="Copy command">
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <div class="step-code-content">
+                  <code class="cmd-line active">prady build main.pr -o my-app</code>
+                </div>
+              </div>
+
+              <!-- Check command -->
+              <div class="step-code-card">
+                <div class="step-code-header">
+                  <span class="code-label">3. Verify architecture contracts & types without executing</span>
+                  <button class="copy-cmd-btn" data-copy="prady check main.pr" title="Copy command">
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <div class="step-code-content">
+                  <code class="cmd-line active">prady check main.pr</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Styles */
+  .hero-section {
+    padding: 5rem 0 4rem 0;
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, var(--accent-subtle) 0%, transparent 60%);
+  }
+
+  .hero-container {
+    max-width: 900px;
+  }
+
+  .hero-badge-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.75rem;
+  }
+
+  .release-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .release-pill:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pill-tag {
+    font-size: 0.68rem;
+    font-weight: 800;
+    background-color: var(--accent);
+    color: #ffffff;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 2.25rem;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+
+  /* Quick Install Box */
+  .quick-install-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .install-tabs {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--code-border);
+  }
+
+  .install-tab-btn {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .install-tab-btn.active {
+    color: #60a5fa;
+    border-bottom-color: #3b82f6;
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .install-command-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
+  }
+
+  .terminal-prompt {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .install-code {
+    flex: 1;
+    color: #f8fafc;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .install-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .install-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  /* Section Intros */
+  .section-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+  }
+
+  /* Showcase Section */
+  .showcase-section {
+    padding: 4rem 0;
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 5rem 0;
+    background-color: var(--bg-secondary);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background-color: var(--accent-subtle);
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .feature-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .feature-link:hover {
+    color: var(--accent-hover);
+  }
+
+  /* Why Section */
+  .why-section {
+    padding: 5rem 0;
+  }
+
+  .why-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 3.5rem 3rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .why-content {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .why-title {
+    font-size: 2.25rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-lead {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+  }
+
+  .comparison-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .point-item {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .point-bullet {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .point-details strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .point-details p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+
+  /* Steps Section - Vertical Order */
+  .steps-section {
+    padding: 4rem 0 6rem 0;
+    background-color: var(--bg-secondary);
+  }
+
+  .steps-vertical-container {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .vertical-step-card {
+    display: flex;
+    gap: 1.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .vertical-step-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-indicator {
+    flex-shrink: 0;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  }
+
+  .step-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .step-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .step-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background-color: var(--badge-bg);
+    border: 1px solid var(--accent-border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+  }
+
+  .step-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .step-desc code {
+    font-size: 0.9em;
+  }
+
+  .step-code-card {
+    background-color: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .step-code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.85rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--code-border);
+  }
+
+  .step-tabs {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .step-tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .step-tab-btn:hover {
+    color: #f8fafc;
+  }
+
+  .step-tab-btn.active {
+    color: #60a5fa;
+    border-bottom-color: #3b82f6;
+  }
+
+  .code-label {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .copy-cmd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .copy-cmd-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+  }
+
+  .copy-cmd-btn.copied {
+    color: #10b981 !important;
+    border-color: rgba(16, 185, 129, 0.4) !important;
+    background-color: rgba(16, 185, 129, 0.15) !important;
+  }
+
+  .step-code-content {
+    padding: 0.95rem 1.15rem;
+    overflow-x: auto;
+  }
+
+  .cmd-line {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #f8fafc;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .cmd-line.active {
+    display: block;
+  }
+
+  .step-pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 0.9rem !important;
+  }
+
+  .commands-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .step-tip {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .step-tip a {
+    font-weight: 600;
+  }
+
+  .step-tip kbd {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+    .why-card {
+      padding: 2rem 1.5rem;
+    }
+    .vertical-step-card {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  function setupInteractiveElements() {
+    // 1. Hero Install Tabs
+    const tabSh = document.getElementById('tab-sh');
+    const tabPs1 = document.getElementById('tab-ps1');
+    const cmdText = document.getElementById('install-cmd-text');
+    const heroCopyBtn = document.getElementById('install-copy-btn');
+
+    if (tabSh && tabPs1 && cmdText) {
+      tabSh.addEventListener('click', () => {
+        tabSh.classList.add('active');
+        tabPs1.classList.remove('active');
+        cmdText.textContent = tabSh.getAttribute('data-cmd') || '';
+      });
+
+      tabPs1.addEventListener('click', () => {
+        tabPs1.classList.add('active');
+        tabSh.classList.remove('active');
+        cmdText.textContent = tabPs1.getAttribute('data-cmd') || '';
+      });
+    }
+
+    if (heroCopyBtn && cmdText) {
+      heroCopyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(cmdText.textContent || '');
+          flashCopied(heroCopyBtn);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
+
+    // 2. Step 1 OS Tabs (macOS/Linux vs Windows PowerShell)
+    const vstepSh = document.getElementById('vstep-tab-sh');
+    const vstepPs1 = document.getElementById('vstep-tab-ps1');
+    const cmdSh = document.getElementById('vstep-cmd-sh');
+    const cmdPs1 = document.getElementById('vstep-cmd-ps1');
+    const copyStep1 = document.getElementById('vstep-copy-step1');
+
+    if (vstepSh && vstepPs1 && cmdSh && cmdPs1) {
+      vstepSh.addEventListener('click', () => {
+        vstepSh.classList.add('active');
+        vstepPs1.classList.remove('active');
+        cmdSh.classList.add('active');
+        cmdPs1.classList.remove('active');
+      });
+
+      vstepPs1.addEventListener('click', () => {
+        vstepPs1.classList.add('active');
+        vstepSh.classList.remove('active');
+        cmdPs1.classList.add('active');
+        cmdSh.classList.remove('active');
+      });
+    }
+
+    if (copyStep1 && cmdSh && cmdPs1) {
+      copyStep1.addEventListener('click', async () => {
+        const activeCmd = cmdSh.classList.contains('active') ? cmdSh.textContent : cmdPs1.textContent;
+        try {
+          await navigator.clipboard.writeText(activeCmd || '');
+          flashCopied(copyStep1);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    }
+
+    // 3. Universal .copy-cmd-btn with data-copy attribute or text content
+    document.querySelectorAll('.copy-cmd-btn[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.getAttribute('data-copy');
+        if (text) {
+          try {
+            await navigator.clipboard.writeText(text);
+            flashCopied(btn);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      });
+    });
+
+    function flashCopied(btn) {
+      btn.classList.add('copied');
+      const span = btn.querySelector('span');
+      if (span) {
+        const orig = span.textContent;
+        span.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          span.textContent = orig;
+        }, 2000);
+      }
+    }
+  }
+
+  setupInteractiveElements();
+  document.addEventListener('astro:after-swap', setupInteractiveElements);
+</script>

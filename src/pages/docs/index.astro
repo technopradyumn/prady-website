@@ -1,0 +1,178 @@
+---
+// docs/index.astro
+import DocLayout from '../../layouts/DocLayout.astro';
+---
+
+<DocLayout 
+  title="Prady Documentation Hub" 
+  description="Welcome to the official Prady documentation. Learn the basics, explore the handbook, browse the standard library and 28 native data structures, or configure the CLI."
+  badge="v1.0.0 GA"
+  headings={[
+    { depth: 2, slug: 'getting-started-hub', text: 'Getting Started' },
+    { depth: 2, slug: 'handbook-hub', text: 'The Handbook' },
+    { depth: 2, slug: 'reference-hub', text: 'Language Reference' },
+    { depth: 2, slug: 'tooling-hub', text: 'Tooling & IDE' }
+  ]}
+  nextPage={{ title: 'Overview & Installation', slug: '/docs/getting-started/overview' }}
+  activeNav="docs"
+>
+  <div class="docs-hub-intro">
+    <p>
+      Prady is a statically-typed programming language engineered for mission-critical architectural systems. 
+      It gives engineers the safety and speed of modern systems languages alongside the simplicity and ergonomics of TypeScript.
+    </p>
+  </div>
+
+  <h2 id="getting-started-hub">Getting Started</h2>
+  <p>If you're new to Prady, start here to install the compiler and write your first program.</p>
+  <div class="hub-grid">
+    <a href="/docs/getting-started/overview" class="hub-card">
+      <div class="hub-card-icon">🚀</div>
+      <div class="hub-card-title">Overview & Philosophy</div>
+      <p class="hub-card-desc">An introduction to Prady, key architectural principles, and the LLVM native compiler model.</p>
+    </a>
+    <a href="/docs/getting-started/installation" class="hub-card">
+      <div class="hub-card-icon">⚡</div>
+      <div class="hub-card-title">Installation & Binaries</div>
+      <p class="hub-card-desc">How to install Prady on Windows, macOS, or Linux via binary archives or terminal scripts.</p>
+    </a>
+    <a href="/docs/getting-started/hello-world" class="hub-card">
+      <div class="hub-card-icon">💻</div>
+      <div class="hub-card-title">Hello World Tutorial</div>
+      <p class="hub-card-desc">Create your first <code>.pr</code> source file, run it in development, and build a standalone binary.</p>
+    </a>
+  </div>
+
+  <h2 id="handbook-hub">The Handbook</h2>
+  <p>Comprehensive, narrative guides designed to be read start-to-finish to master the language.</p>
+  <div class="hub-grid">
+    <a href="/docs/handbook/the-basics" class="hub-card">
+      <div class="hub-card-icon">📖</div>
+      <div class="hub-card-title">The Basics</div>
+      <p class="hub-card-desc">Variables, mutability, lexical scoping, type annotations, and core syntax ergonomics.</p>
+    </a>
+    <a href="/docs/handbook/everyday-types" class="hub-card">
+      <div class="hub-card-icon">🧩</div>
+      <div class="hub-card-title">Everyday Types</div>
+      <p class="hub-card-desc">Numeric types, Boolean logic, Strings, Optionals, and modern composite structures.</p>
+    </a>
+    <a href="/docs/handbook/control-flow" class="hub-card">
+      <div class="hub-card-icon">🔄</div>
+      <div class="hub-card-title">Control Flow & Matching</div>
+      <p class="hub-card-desc">Master conditional logic, loops (while, for, foreach..in), and exhaustive switch statements.</p>
+    </a>
+    <a href="/docs/handbook/functions-and-lambdas" class="hub-card">
+      <div class="hub-card-icon">λ</div>
+      <div class="hub-card-title">Functions & Lambdas</div>
+      <p class="hub-card-desc">First-class functions, closures, functional pipelines (filter, map, reduce), and arrow syntax.</p>
+    </a>
+    <a href="/docs/handbook/architecture-contracts" class="hub-card featured">
+      <div class="hub-card-icon">🏛️</div>
+      <div class="hub-card-title">Architecture Contracts</div>
+      <p class="hub-card-desc">Enforce modular system boundaries with <code>architecture</code>, <code>layer</code>, and <code>cannot import</code> rules.</p>
+    </a>
+  </div>
+
+  <h2 id="reference-hub">Language Reference</h2>
+  <p>Detailed technical specifications, keyword tables, and complete API references for built-in types.</p>
+  <div class="hub-grid">
+    <a href="/docs/reference/keywords-and-syntax" class="hub-card">
+      <div class="hub-card-icon">🔤</div>
+      <div class="hub-card-title">Keywords & Grammar</div>
+      <p class="hub-card-desc">Exhaustive table of all 32 reserved keywords, operators, annotations, and precedence.</p>
+    </a>
+    <a href="/docs/reference/built-in-types" class="hub-card">
+      <div class="hub-card-icon">🏷️</div>
+      <div class="hub-card-title">Built-In Primitive Types</div>
+      <p class="hub-card-desc">Detailed specs for Int8..Int64, UInt, Float32/64, String, Char, Bool, Unit, and Never.</p>
+    </a>
+    <a href="/docs/reference/data-structures" class="hub-card featured">
+      <div class="hub-card-icon">🌲</div>
+      <div class="hub-card-title">All 28 Data Structures</div>
+      <p class="hub-card-desc">RedBlackTree, AVLTree, Trie, LRU/LFU Cache, Min/MaxHeap, DisjointSet, SegmentTree, and more.</p>
+    </a>
+    <a href="/docs/reference/standard-library" class="hub-card">
+      <div class="hub-card-icon">📚</div>
+      <div class="hub-card-title">Standard Library</div>
+      <p class="hub-card-desc">Core I/O, file system operations, math utilities, and system process APIs.</p>
+    </a>
+  </div>
+
+  <h2 id="tooling-hub">Tooling & IDE</h2>
+  <p>Official developer tools that guarantee high productivity and rapid feedback cycles.</p>
+  <div class="hub-grid">
+    <a href="/docs/tooling/cli-reference" class="hub-card">
+      <div class="hub-card-icon">⌨️</div>
+      <div class="hub-card-title">Prady CLI Reference</div>
+      <p class="hub-card-desc">Commands for running, checking, building, and generating project scaffolding.</p>
+    </a>
+    <a href="/docs/tooling/package-manager" class="hub-card">
+      <div class="hub-card-icon">📦</div>
+      <div class="hub-card-title">Package Manager</div>
+      <p class="hub-card-desc">Managing dependencies with <code>prady add</code> and configuring <code>prady.toml</code>.</p>
+    </a>
+    <a href="/docs/tooling/editor-extensions" class="hub-card">
+      <div class="hub-card-icon">💡</div>
+      <div class="hub-card-title">VS Code & LSP</div>
+      <p class="hub-card-desc">Language server integration, diagnostics, hover tooltips, and editor shortcuts.</p>
+    </a>
+  </div>
+</DocLayout>
+
+<style>
+  .docs-hub-intro {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hub-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .hub-card:hover {
+    border-color: var(--accent);
+    background-color: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hub-card.featured {
+    border-color: var(--accent-border);
+    background-color: var(--accent-subtle);
+  }
+
+  .hub-card-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hub-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .hub-card-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>

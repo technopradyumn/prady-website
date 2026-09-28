@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "badge": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "order": {
+      "type": "number"
+    },
+    "prev": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "slug"
+      ]
+    },
+    "next": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "slug"
+      ]
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

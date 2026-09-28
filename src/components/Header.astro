@@ -1,0 +1,285 @@
+---
+// Header.astro
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  activeNav?: 'handbook' | 'docs' | 'reference' | 'tooling' | 'play' | 'download';
+}
+
+const { activeNav } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="header-inner container">
+    <!-- Brand / Logo -->
+    <div class="header-left">
+      <a href="/" class="brand-link">
+        <div class="brand-badge">.pr</div>
+        <span class="brand-title">Prady</span>
+      </a>
+      <span class="version-pill" title="Current Release">v1.0.0 GA</span>
+    </div>
+
+    <!-- Search Trigger Bar -->
+    <div class="header-search">
+      <button class="search-trigger-btn" data-open-search title="Search docs (Press '/' or Ctrl+K)">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span class="search-text">Search documentation...</span>
+        <kbd class="search-key">/</kbd>
+      </button>
+    </div>
+
+    <!-- Nav Items & Utilities -->
+    <nav class="header-nav" id="desktop-nav">
+      <a href="/docs/handbook/the-basics" class={`nav-item ${activeNav === 'handbook' ? 'active' : ''}`}>Handbook</a>
+      <a href="/docs/reference/keywords-and-syntax" class={`nav-item ${activeNav === 'reference' ? 'active' : ''}`}>Reference</a>
+      <a href="/docs" class={`nav-item ${activeNav === 'docs' ? 'active' : ''}`}>Docs</a>
+      <a href="/docs/tooling/cli-reference" class={`nav-item ${activeNav === 'tooling' ? 'active' : ''}`}>Tooling</a>
+      <a href="/play" class={`nav-item ${activeNav === 'play' ? 'active' : ''}`}>Playground</a>
+      <a href="/download" class={`nav-item ${activeNav === 'download' ? 'active' : ''}`}>Download</a>
+
+      <div class="header-divider"></div>
+
+      <ThemeToggle />
+
+      <a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" class="icon-link" title="Prady on GitHub">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer hidden" id="mobile-drawer">
+    <div class="mobile-drawer-links">
+      <a href="/docs/handbook/the-basics" class="mobile-link">Handbook</a>
+      <a href="/docs/reference/keywords-and-syntax" class="mobile-link">Reference</a>
+      <a href="/docs" class="mobile-link">Docs Hub</a>
+      <a href="/docs/tooling/cli-reference" class="mobile-link">Tooling</a>
+      <a href="/play" class="mobile-link">Playground</a>
+      <a href="/download" class="mobile-link">Download</a>
+      <a href="https://github.com/technopradyumn/prady" target="_blank" rel="noopener noreferrer" class="mobile-link external">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(8px);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .header-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+
+  .version-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--badge-text);
+    background-color: var(--badge-bg);
+    border: 1px solid var(--accent-border);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  /* Search Trigger */
+  .header-search {
+    flex: 1;
+    max-width: 340px;
+  }
+
+  .search-trigger-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .search-trigger-btn:hover {
+    border-color: var(--accent);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  .search-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  .search-key {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+  }
+
+  /* Nav Links */
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .nav-item {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .nav-item:hover,
+  .nav-item.active {
+    color: var(--accent);
+  }
+
+  .header-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--border-color);
+  }
+
+  .icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .icon-link:hover {
+    color: var(--text-primary);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .mobile-drawer {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .header-search {
+      display: none;
+    }
+    .header-nav .nav-item {
+      display: none;
+    }
+    .header-divider {
+      display: none;
+    }
+    .mobile-menu-btn {
+      display: block;
+    }
+
+    .mobile-drawer {
+      display: block;
+      background-color: var(--bg-primary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+    }
+
+    .mobile-drawer.hidden {
+      display: none;
+    }
+
+    .mobile-drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .mobile-link {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+  }
+</style>
+
+<script is:inline>
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const drawer = document.getElementById('mobile-drawer');
+  if (toggleBtn && drawer) {
+    toggleBtn.addEventListener('click', () => {
+      drawer.classList.toggle('hidden');
+    });
+  }
+</script>

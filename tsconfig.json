@@ -1,14 +1,12 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
     "strict": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
+    "jsx": "preserve"
   },
-  "include": ["src/**/*"]
+  "include": [".astro/types.d.ts", "**/*"]
 }
