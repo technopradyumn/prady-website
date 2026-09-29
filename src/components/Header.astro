@@ -15,7 +15,7 @@ const { activeNav } = Astro.props;
     <!-- Brand / Logo -->
     <div class="header-left">
       <a href="/" class="brand-link">
-        <div class="brand-badge">.pr</div>
+        <img class="brand-logo" src="/prady-logo.svg" alt="" />
         <span class="brand-title">Prady</span>
       </a>
       <span class="version-pill" title="Current Release">v{latestData.version}</span>
@@ -112,19 +112,14 @@ const { activeNav } = Astro.props;
     color: var(--text-primary);
   }
 
-  .brand-badge {
+  .brand-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: linear-gradient(135deg, var(--accent), #1d4ed8);
-    color: #ffffff;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: -0.05em;
+    object-fit: contain;
     box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
   }
 

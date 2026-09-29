@@ -9,7 +9,7 @@ import latestData from '../../public/latest.json';
       <!-- Col 1: Brand & Pitch -->
       <div class="footer-col brand-col">
         <div class="footer-brand">
-          <div class="brand-badge">.pr</div>
+          <img class="brand-logo" src="/prady-logo.svg" alt="" />
           <span class="brand-title">Prady</span>
         </div>
         <p class="brand-desc">
@@ -103,18 +103,14 @@ import latestData from '../../public/latest.json';
     gap: 0.6rem;
   }
 
-  .brand-badge {
+  .brand-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 28px;
     height: 28px;
     border-radius: 6px;
-    background: linear-gradient(135deg, var(--accent), #1d4ed8);
-    color: #ffffff;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    font-weight: 700;
+    object-fit: contain;
   }
 
   .brand-title {
