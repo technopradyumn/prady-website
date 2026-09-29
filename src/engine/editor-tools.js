@@ -12,7 +12,7 @@ const BUILTIN_TYPES = new Set([
 
 const SUGGESTIONS = [
   {
-    matches: /expected|unexpected token|unexpected character|unterminated string/i,
+    matches: /^\s*(?:expected\b|unexpected token|unexpected character|unterminated string)/i,
     title: 'Check the syntax near the reported token',
     steps: [
       'Compare the reported line with the surrounding function or block.',
@@ -62,6 +62,15 @@ const SUGGESTIONS = [
       'Update the loop variable on every path through the loop.',
     ],
     docsUrl: '/docs/handbook/control-flow',
+  },
+  {
+    matches: /browser playground cannot load imports|cannot be loaded in the single-file browser playground/i,
+    title: 'The browser playground runs one source file at a time',
+    steps: [
+      'Local project modules and external library files are not fetched by the browser playground.',
+      'Open the project in VS Code or run it with the installed Prady CLI to resolve file imports.',
+    ],
+    docsUrl: '/docs/tooling/editor-extensions',
   },
 ];
 

@@ -68,13 +68,13 @@ You can run this binary directly on any matching machine with zero external depe
 
 ## Checking Code Without Executing
 
-If you want to perform fast type checking, syntax validation, and architecture rule verification without executing or compiling to machine code, use `prady check`:
+If you want to run the compiler's current parse and project checks without executing the program, use `prady check`:
 
 ```bash
 prady check main.pr
 ```
 
-If your code is clean, the command exits with code `0`.
+If the implemented checks pass, the command exits with code `0`. The current compiler does not provide complete static type checking.
 
 ## Next Step: The Handbook
 

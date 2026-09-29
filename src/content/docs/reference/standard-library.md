@@ -1,6 +1,6 @@
 ---
-title: "Standard Library Overview"
-description: "Core modules and standard library packages in Prady."
+title: "Built-ins & Project Modules"
+description: "Documented built-ins, member APIs, and the current Prady project import model."
 category: "Language Reference"
 order: 4
 prev:
@@ -11,62 +11,31 @@ next:
   slug: "/docs/tooling/cli-reference"
 ---
 
-The Prady standard library provides zero-overhead, memory-safe modules for core computing needs.
+The current Prady CLI provides built-in functions and data structures, and loads project `.pr` files through `import` declarations. It does **not** currently ship the `std::io`, `std::fs`, `std::math`, `std::sys`, or `std::time` source modules shown in older drafts of this page. Importing those names does not make their APIs available.
 
-## Standard Modules
+## Built-in functions and data structures
 
-| Module | Namespace | Purpose |
-| :--- | :--- | :--- |
-| **`std::io`** | Standard I/O | Terminal output, string formatted printing, buffered input reading |
-| **`std::fs`** | Filesystem | Path resolution, reading files, writing binary/text streams |
-| **`std::math`** | Mathematics | Trigonometry, logarithms, exponential scaling, rounding |
-| **`std::sys`** | System | Command line arguments, environment variables, exit codes |
-| **`std::time`** | Clock & Timers | High-resolution monotonic timers, epoch timestamps |
-
-## `std::io` Example
+Common built-ins include `print`, `println`, `assert`, and `len`. The runtime also provides collection/string operations and the data structures listed in the [data-structure reference](/docs/reference/data-structures). The exact supported functions and methods are those implemented by the current compiler/runtime.
 
 ```prady
-use std::io::{print, readLine};
-
 fn main() {
-    print("Please enter your name: ");
-    let name = readLine();
-    print("Welcome, " + name + "!");
+    let values = [1, 2, 3];
+    println("Count: " + len(values));
+    assert(len(values) == 3, "the list should contain three values");
 }
 ```
 
-## `std::fs` Example
+## Project imports
 
 ```prady
-use std::fs::{readFile, writeFile, exists};
+import models.user;
 
 fn main() {
-    let path = "config.json";
-    if exists(path) {
-        let content = readFile(path);
-        print("Config content: " + content);
-    } else {
-        writeFile(path, '{"version": 1}');
-        print("Initialized default config.");
-    }
+    let user = User("Prady");
+    println(user.name);
 }
 ```
 
-## `std::time` Monotonic Benchmarking
+The import path `models.user` resolves to `models/user.pr` relative to the importing source file (or the project's `src` directory). The imported file must define the symbols used by the program. The CLI currently discovers local project `.pr` files; it does not download or resolve third-party packages just because an import path is written.
 
-```prady
-use std::time::Instant;
-
-fn main() {
-    let start = Instant::now();
-    
-    // Perform intensive task
-    let mut total = 0;
-    for let mut i = 0; i < 100000; i = i + 1 {
-        total = total + i;
-    }
-
-    let elapsedMs = start.elapsedMillis();
-    print("Finished in " + elapsedMs + " ms.");
-}
-```
+The browser playground cannot access local files, so it reports project imports as warnings. Use the CLI or VS Code extension for multi-file projects. See [Errors & Troubleshooting](/docs/tooling/troubleshooting) if an import cannot be resolved.

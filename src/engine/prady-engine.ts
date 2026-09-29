@@ -430,9 +430,12 @@ export class Parser {
 
   private parseTopLevelItem(): any {
     if (this.match(TokenKind.Import)) {
-      const name = this.consume(TokenKind.Ident, 'Expected imported module name').text;
+      const path = [this.consume(TokenKind.Ident, 'Expected imported module name').text];
+      while (this.match(TokenKind.Dot)) {
+        path.push(this.consume(TokenKind.Ident, 'Expected identifier in import path').text);
+      }
       this.match(TokenKind.Semicolon);
-      return { type: 'Import', name };
+      return { type: 'Import', name: path.join('.') };
     }
     if (this.check(TokenKind.Class)) return this.parseClass();
     if (this.check(TokenKind.Fn)) return this.parseFunction();

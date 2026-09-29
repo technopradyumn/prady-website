@@ -75,7 +75,7 @@ const {
         if (pre.querySelector('.code-copy-floating-btn')) return;
         if (pre.closest('.code-block-container')) return;
         if (pre.closest('.code-tabs-widget')) return;
-        if (pre.id === 'console-output') return;
+        if (pre.id === 'console-output' || pre.id === 'prady-highlight') return;
 
         const btn = document.createElement('button');
         btn.className = 'code-copy-floating-btn';

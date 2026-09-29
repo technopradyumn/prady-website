@@ -80,8 +80,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const rawMessage = messageInput.value.trim();
-    const diagnosticLine = rawMessage.match(/(?:-->.*?:)?line\s+(\d+):\d+/i);
+    const rawMessage = messageInput.value.replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, '').trim();
+    const diagnosticLine = rawMessage.match(/-->\s+(?:.*?:)?(?:line\s+)?(\d+):\d+/i);
     const message = rawMessage.replace(/^\s*(?:error|warning)(?:\[[^\]]+\])?:\s*/i, '').split(/\r?\n\s*-->/)[0];
     const line = Number(new URLSearchParams(location.search).get('line') || diagnosticLine?.[1] || 0) || null;
     const params = new URLSearchParams();

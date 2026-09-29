@@ -25,7 +25,7 @@
 |---|---|---|
 | 🏠 Home | [pradylang.vercel.app](https://pradylang.vercel.app) | Landing page with language overview |
 | 📖 Docs Hub | [/docs](https://pradylang.vercel.app/docs) | Full documentation index |
-| ▶ Playground | [/play](https://pradylang.vercel.app/play) | In-browser Prady runner & AST inspector |
+| ▶ Playground | [/play](https://pradylang.vercel.app/play) | Syntax-highlighted in-browser editor and single-file interpreter |
 | 🛠️ Error guide | [/errors](https://pradylang.vercel.app/errors) | Search an error with relevant code for targeted troubleshooting steps |
 | ⬇ Download | [/download](https://pradylang.vercel.app/download) | Binary downloads for all platforms |
 

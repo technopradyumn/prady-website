@@ -298,6 +298,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #e2e8f0;
     pointer-events: none;
     user-select: none;
+    margin: 0 !important;
+    padding: 1.25rem !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
   }
 
   .prady-editor-textarea {
@@ -527,6 +532,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-color: #ef4444;
   }
 
+  :global(.diag-item.warning) {
+    border-left: 4px solid #f59e0b;
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #fde68a;
+    cursor: default;
+  }
+
   :global(.diag-help) {
     display: block;
     margin-top: 0.45rem;
@@ -712,6 +724,7 @@ main();`
 
     if (!editor || !runBtn) return;
     let liveDiagnostics: Array<{ level: 'error' | 'warning'; line: number; col: number; message: string }> = [];
+    let runtimeDiagnostic: typeof liveDiagnostics[number] | undefined;
     let diagnosticTimer: ReturnType<typeof setTimeout> | undefined;
 
     // Load from URL query param if present
@@ -727,10 +740,30 @@ main();`
       editor.value = EXAMPLES.hello;
     }
 
+    function importDiagnostics(source: string) {
+      const diagnostics: Array<{ level: 'error' | 'warning'; line: number; col: number; message: string }> = [];
+      const importPattern = /^\s*import\s+([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)\s*;/gm;
+      let match;
+      while ((match = importPattern.exec(source))) {
+        const beforeImport = source.slice(0, match.index);
+        diagnostics.push({
+          level: 'warning',
+          line: beforeImport.split('\n').length,
+          col: match[0].indexOf(match[1]) + 1,
+          message: `Import '${match[1]}' cannot be loaded in the single-file browser playground.`,
+        });
+      }
+      return diagnostics;
+    }
+
+    function allStaticDiagnostics() {
+      return [...PradyCompiler.check(editor.value), ...importDiagnostics(editor.value)];
+    }
+
     function updateEditorDecorations() {
       if (highlight) {
         const errorLines = liveDiagnostics
-          .filter((diagnostic) => diagnostic.line > 0)
+          .filter((diagnostic) => diagnostic.level === 'error' && diagnostic.line > 0)
           .map((diagnostic) => diagnostic.line);
         const codeLayer = highlight.querySelector('code');
         if (codeLayer) codeLayer.innerHTML = highlightPradyCode(editor.value, errorLines);
@@ -760,7 +793,7 @@ main();`
       if (diagnostics.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'diag-empty';
-        empty.textContent = 'No syntax or compiler diagnostics. Code is clean.';
+        empty.textContent = 'No syntax or import diagnostics. Code is clean.';
         diagList.appendChild(empty);
         diagBadge.classList.add('hidden');
         return;
@@ -771,7 +804,7 @@ main();`
       diagnostics.forEach((diagnostic) => {
         const help = resolvePradyError(diagnostic.message, editor.value);
         const item = document.createElement('div');
-        item.className = 'diag-item';
+        item.className = `diag-item${diagnostic.level === 'warning' ? ' warning' : ''}`;
         item.setAttribute('role', diagnostic.line > 0 ? 'button' : 'group');
         if (diagnostic.line > 0) {
           item.tabIndex = 0;
@@ -785,7 +818,9 @@ main();`
           });
         }
         const title = document.createElement('strong');
-        title.textContent = diagnostic.line > 0
+        title.textContent = diagnostic.level === 'warning'
+          ? `Warning [Line ${diagnostic.line}, Col ${diagnostic.col}]: ${diagnostic.message}`
+          : diagnostic.line > 0
           ? `[Line ${diagnostic.line}, Col ${diagnostic.col}] ${diagnostic.message}`
           : `Runtime error: ${diagnostic.message}`;
         item.appendChild(title);
@@ -806,7 +841,10 @@ main();`
     }
 
     function updateLiveDiagnostics() {
-      renderDiagnostics(PradyCompiler.check(editor.value));
+      renderDiagnostics([
+        ...allStaticDiagnostics(),
+        ...(runtimeDiagnostic ? [runtimeDiagnostic] : []),
+      ]);
     }
 
     // Example switch
@@ -877,6 +915,9 @@ main();`
 
       try {
         const result = PradyCompiler.compileAndRun(code, printCb);
+        runtimeDiagnostic = result.runError
+          ? { level: 'error', line: 0, col: 0, message: result.runError }
+          : undefined;
 
         // Update Console Output
         if (timeBadge) timeBadge.textContent = `${result.durationMs}ms`;
@@ -894,7 +935,7 @@ main();`
         if (consoleOutput) consoleOutput.textContent = outputText;
 
         // Update Diagnostics Tab
-        renderDiagnostics(result.diagnostics);
+        renderDiagnostics([...result.diagnostics, ...importDiagnostics(code)]);
 
         // Update Architecture Tab
         if (archOutput && archDot) {
@@ -916,8 +957,9 @@ main();`
 
       } catch (err: any) {
         const message = err instanceof Error ? err.message : String(err);
+        runtimeDiagnostic = { level: 'error', line: 0, col: 0, message };
         if (consoleOutput) consoleOutput.textContent = `Internal evaluation error: ${message}`;
-        renderDiagnostics([{ level: 'error', line: 0, col: 0, message }]);
+        renderDiagnostics([{ level: 'error', line: 0, col: 0, message }, ...importDiagnostics(code)]);
       }
     }
 
@@ -955,6 +997,7 @@ main();`
     });
 
     editor.addEventListener('input', () => {
+      runtimeDiagnostic = undefined;
       updateEditorDecorations();
       if (diagnosticTimer) clearTimeout(diagnosticTimer);
       diagnosticTimer = setTimeout(updateLiveDiagnostics, 250);

@@ -1,7 +1,6 @@
 {
-  "_comment": "This file is updated automatically by the release workflow. Edit manually only for hotfixes.",
   "version": "1.0.0",
-  "releaseDate": "2026-09-28",
+  "releaseDate": "2026-09-29",
   "releaseNotesUrl": "https://github.com/technopradyumn/prady/releases/tag/v1.0.0",
   "assets": {
     "windows-x64": {

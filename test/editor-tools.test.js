@@ -25,3 +25,9 @@ test('known runtime failures receive targeted steps and documentation links', ()
   assert.ok(help.steps.length > 0);
   assert.equal(help.docsUrl, '/docs/reference/built-in-types');
 });
+
+test('runtime assertion failures do not match the parser syntax fallback', () => {
+  const help = resolvePradyError('Assertion failed: expected true');
+  assert.equal(help.title, 'The program assertion evaluated to false');
+  assert.ok(help.steps.length > 0);
+});
