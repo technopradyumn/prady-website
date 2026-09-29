@@ -13,13 +13,18 @@ The Prady ecosystem provides first-class editor integration powered by the Langu
 ## Official VS Code Extension
 
 The official **Prady Language** extension for Visual Studio Code provides:
-
-- **Syntax Highlighting**: Powered by the official TextMate grammar covering all 32 keywords, annotations, types, and architecture blocks.
-- **Real-Time Diagnostics**: Inline error squiggles for syntax errors, type mismatches, and architecture contract violations.
-- **Go-to-Definition & References**: Jump directly to function, class, interface, and layer declarations.
-- **Hover Documentation**: Hover over any keyword, standard library function, or data structure to view its signature and docstring.
-- **Auto-Completion**: Context-aware autocompletion for keywords, variables, types, and method signatures.
-- **One-Click Run & Build**: Run or compile files directly from editor commands (`Ctrl+Shift+P` -> `Prady: Run Current File`).
+ 
+- **Auto-Import Dropdown**:
+  - Triggers automatically as you type letters or type dot (`.`) access.
+  - Selecting any completion from standard modules (`std.dsa`, `std.io`, `std.net`, `std.async`, etc.) **automatically injects the required `import` statement at the top of your file**.
+- **Real-Time Diagnostics & Quick-Fixes**:
+  - **Missing Imports**: Highlights unimported types and classes with red error squiggles and provides a **1-click "Auto-import `<Symbol>`" quick-fix** (`Ctrl+.` or `Cmd+.`).
+  - **Unused Imports**: Warns about unused imports with dimmed/grayed-out text (`DiagnosticTag.Unnecessary`).
+- **Organize Imports Command**:
+  - Run `Prady: Organize Imports` from the Command Palette (`Ctrl+Shift+P`) to automatically sort imports alphabetically and remove all unused imports.
+- **Syntax Highlighting**: Powered by official TextMate grammar covering all keywords, annotations, types, and architecture blocks.
+- **Go-to-Definition & Hover**: Jump directly to symbols and view signatures with docstrings.
+- **One-Click Run & Build**: Run or compile files directly from editor title bar buttons or `Ctrl+F5`.
 
 ## The `prady-lsp` Executable
 

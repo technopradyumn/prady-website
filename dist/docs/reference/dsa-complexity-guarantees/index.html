@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Standard Library Overview · Prady Docs</title><meta name="description" content="Core modules and standard library packages in Prady."><!-- Favicon --><link rel="icon" type="image/png" href="/icon.png"><!-- Open Graph / SEO --><meta property="og:type" content="website"><meta property="og:title" content="Standard Library Overview · Prady Docs"><meta property="og:description" content="Core modules and standard library packages in Prady."><meta property="og:image" content="/icon.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Standard Library Overview · Prady Docs"><meta name="twitter:description" content="Core modules and standard library packages in Prady."><!-- Preconnect to Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Prevent Theme Flash --><script>
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>DSA Formal Complexity Guarantees · Prady Docs</title><meta name="description" content="Mathematical bounds and Big-O complexity contracts for all standard collections."><!-- Favicon --><link rel="icon" type="image/png" href="/icon.png"><!-- Open Graph / SEO --><meta property="og:type" content="website"><meta property="og:title" content="DSA Formal Complexity Guarantees · Prady Docs"><meta property="og:description" content="Mathematical bounds and Big-O complexity contracts for all standard collections."><meta property="og:image" content="/icon.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="DSA Formal Complexity Guarantees · Prady Docs"><meta name="twitter:description" content="Mathematical bounds and Big-O complexity contracts for all standard collections."><!-- Preconnect to Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- Prevent Theme Flash --><script>
     const theme = (() => {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('prady-theme')) {
         return localStorage.getItem('prady-theme');
@@ -32,81 +32,156 @@
       drawer.classList.toggle('hidden');
     });
   }
-</script><div class="doc-page-container" data-astro-cid-ptuyl3tj><aside class="docs-sidebar" aria-label="Documentation Navigation" data-astro-cid-wv7whodv><div class="sidebar-inner" data-astro-cid-wv7whodv><div class="sidebar-search-box" data-astro-cid-wv7whodv><button class="sidebar-search-btn" data-open-search data-astro-cid-wv7whodv><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-wv7whodv><circle cx="11" cy="11" r="8" data-astro-cid-wv7whodv></circle><line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-wv7whodv></line></svg><span data-astro-cid-wv7whodv>Quick search...</span><kbd data-astro-cid-wv7whodv>/</kbd></button></div><nav class="sidebar-nav" data-astro-cid-wv7whodv><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Getting Started</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/overview" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Overview</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/installation" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Installation &amp; Setup</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/hello-world" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Hello World &amp; Scaffolding</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>The Handbook</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/the-basics" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>The Basics</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/everyday-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Everyday Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/control-flow" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Control Flow &amp; Loops</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/functions-and-lambdas" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Functions &amp; Lambdas</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/architecture-contracts" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Architecture Contracts</span><span class="nav-badge" data-astro-cid-wv7whodv>Core</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/pattern-matching" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Enums &amp; Pattern Matching</span><span class="nav-badge" data-astro-cid-wv7whodv>New</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/async-networking" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Async &amp; HTTP Services</span><span class="nav-badge" data-astro-cid-wv7whodv>New</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Language Reference</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/keywords-and-syntax" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Keywords &amp; Syntax</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/built-in-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Built-in Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/data-structures" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>28 Data Structures</span><span class="nav-badge" data-astro-cid-wv7whodv>28 DS</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/standard-library" class="doc-link active" data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Standard Library</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/llvm-codegen" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>LLVM Native Codegen &amp; Linking</span><span class="nav-badge" data-astro-cid-wv7whodv>LLVM</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/dsa-complexity-guarantees" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>DSA Complexity Guarantees</span><span class="nav-badge" data-astro-cid-wv7whodv>Big-O</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Tooling &amp; IDE</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/cli-reference" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Prady CLI Commands</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/package-manager" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Package Manager (prady add)</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/editor-extensions" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>VS Code Extension &amp; Auto-Import</span><span class="nav-badge" data-astro-cid-wv7whodv>Auto-Import</span></a></li></ul></div></nav></div></aside><main class="doc-main-content" data-astro-cid-ptuyl3tj><div class="doc-content-wrapper" data-astro-cid-ptuyl3tj><!-- Breadcrumbs --><nav class="doc-breadcrumbs" aria-label="Breadcrumbs" data-astro-cid-ptuyl3tj><a href="/docs" class="breadcrumb-link" data-astro-cid-ptuyl3tj>Docs</a><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>Language Reference</span><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>Standard Library Overview</span></nav><!-- Article Title & Meta --><header class="doc-header" data-astro-cid-ptuyl3tj><div class="title-row" data-astro-cid-ptuyl3tj><h1 class="doc-title" data-astro-cid-ptuyl3tj>Standard Library Overview</h1></div><p class="doc-lead" data-astro-cid-ptuyl3tj>Core modules and standard library packages in Prady.</p></header><!-- Main Body --><article class="doc-prose" data-astro-cid-ptuyl3tj><p>The Prady standard library provides zero-overhead, memory-safe modules for core computing needs.</p>
-<h2 id="standard-modules">Standard Modules</h2>
+</script><div class="doc-page-container" data-astro-cid-ptuyl3tj><aside class="docs-sidebar" aria-label="Documentation Navigation" data-astro-cid-wv7whodv><div class="sidebar-inner" data-astro-cid-wv7whodv><div class="sidebar-search-box" data-astro-cid-wv7whodv><button class="sidebar-search-btn" data-open-search data-astro-cid-wv7whodv><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-wv7whodv><circle cx="11" cy="11" r="8" data-astro-cid-wv7whodv></circle><line x1="21" y1="21" x2="16.65" y2="16.65" data-astro-cid-wv7whodv></line></svg><span data-astro-cid-wv7whodv>Quick search...</span><kbd data-astro-cid-wv7whodv>/</kbd></button></div><nav class="sidebar-nav" data-astro-cid-wv7whodv><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Getting Started</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/overview" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Overview</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/installation" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Installation &amp; Setup</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/getting-started/hello-world" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Hello World &amp; Scaffolding</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>The Handbook</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/the-basics" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>The Basics</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/everyday-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Everyday Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/control-flow" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Control Flow &amp; Loops</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/functions-and-lambdas" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Functions &amp; Lambdas</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/architecture-contracts" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Architecture Contracts</span><span class="nav-badge" data-astro-cid-wv7whodv>Core</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/pattern-matching" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Enums &amp; Pattern Matching</span><span class="nav-badge" data-astro-cid-wv7whodv>New</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/handbook/async-networking" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Async &amp; HTTP Services</span><span class="nav-badge" data-astro-cid-wv7whodv>New</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Language Reference</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/keywords-and-syntax" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Keywords &amp; Syntax</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/built-in-types" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Built-in Types</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/data-structures" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>28 Data Structures</span><span class="nav-badge" data-astro-cid-wv7whodv>28 DS</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/standard-library" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Standard Library</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/llvm-codegen" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>LLVM Native Codegen &amp; Linking</span><span class="nav-badge" data-astro-cid-wv7whodv>LLVM</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/reference/dsa-complexity-guarantees" class="doc-link active" data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>DSA Complexity Guarantees</span><span class="nav-badge" data-astro-cid-wv7whodv>Big-O</span></a></li></ul></div><div class="sidebar-section" data-astro-cid-wv7whodv><div class="section-header" data-astro-cid-wv7whodv><span class="section-title" data-astro-cid-wv7whodv>Tooling &amp; IDE</span></div><ul class="section-links" data-astro-cid-wv7whodv><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/cli-reference" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Prady CLI Commands</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/package-manager" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>Package Manager (prady add)</span></a></li><li class="link-item" data-astro-cid-wv7whodv><a href="/docs/tooling/editor-extensions" class="doc-link " data-astro-cid-wv7whodv><span class="link-text" data-astro-cid-wv7whodv>VS Code Extension &amp; Auto-Import</span><span class="nav-badge" data-astro-cid-wv7whodv>Auto-Import</span></a></li></ul></div></nav></div></aside><main class="doc-main-content" data-astro-cid-ptuyl3tj><div class="doc-content-wrapper" data-astro-cid-ptuyl3tj><!-- Breadcrumbs --><nav class="doc-breadcrumbs" aria-label="Breadcrumbs" data-astro-cid-ptuyl3tj><a href="/docs" class="breadcrumb-link" data-astro-cid-ptuyl3tj>Docs</a><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>Language Reference</span><span class="breadcrumb-separator" data-astro-cid-ptuyl3tj>/</span><span class="breadcrumb-current" data-astro-cid-ptuyl3tj>DSA Formal Complexity Guarantees</span></nav><!-- Article Title & Meta --><header class="doc-header" data-astro-cid-ptuyl3tj><div class="title-row" data-astro-cid-ptuyl3tj><h1 class="doc-title" data-astro-cid-ptuyl3tj>DSA Formal Complexity Guarantees</h1></div><p class="doc-lead" data-astro-cid-ptuyl3tj>Mathematical bounds and Big-O complexity contracts for all standard collections.</p></header><!-- Main Body --><article class="doc-prose" data-astro-cid-ptuyl3tj><p>Unlike languages where data structure performance varies by implementation, the Prady standard library enforces <strong>formal Big-O asymptotic contracts</strong> for every standard collection.</p>
+<h2 id="asymptotic-bounds-table">Asymptotic Bounds Table</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left">Module</th>
-<th style="text-align: left">Namespace</th>
-<th style="text-align: left">Purpose</th>
+<th style="text-align: left">Collection</th>
+<th style="text-align: left">Operation</th>
+<th style="text-align: left">Average Case</th>
+<th style="text-align: left">Worst Case</th>
+<th style="text-align: left">Space Complexity</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left"><strong><code>std::io</code></strong></td>
-<td style="text-align: left">Standard I/O</td>
-<td style="text-align: left">Terminal output, string formatted printing, buffered input reading</td>
+<td style="text-align: left"><strong><code>Vector&lt;T&gt;</code></strong></td>
+<td style="text-align: left"><code>get(index)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
 </tr>
 <tr>
-<td style="text-align: left"><strong><code>std::fs</code></strong></td>
-<td style="text-align: left">Filesystem</td>
-<td style="text-align: left">Path resolution, reading files, writing binary/text streams</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>push(item)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$ (amortized)</td>
+<td style="text-align: left">$\mathcal{O}(N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
 </tr>
 <tr>
-<td style="text-align: left"><strong><code>std::math</code></strong></td>
-<td style="text-align: left">Mathematics</td>
-<td style="text-align: left">Trigonometry, logarithms, exponential scaling, rounding</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>pop()</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
 </tr>
 <tr>
-<td style="text-align: left"><strong><code>std::sys</code></strong></td>
-<td style="text-align: left">System</td>
-<td style="text-align: left">Command line arguments, environment variables, exit codes</td>
+<td style="text-align: left"><strong><code>HashMap&lt;K, V&gt;</code></strong></td>
+<td style="text-align: left"><code>get(key)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
 </tr>
 <tr>
-<td style="text-align: left"><strong><code>std::time</code></strong></td>
-<td style="text-align: left">Clock &amp; Timers</td>
-<td style="text-align: left">High-resolution monotonic timers, epoch timestamps</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>insert(key, val)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>remove(key)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>AVLTree&lt;K, V&gt;</code></strong></td>
+<td style="text-align: left"><code>search(key)</code></td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>insert(key, val)</code></td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>delete(key)</code></td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>PriorityQueue&lt;T&gt;</code></strong></td>
+<td style="text-align: left"><code>peek()</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>push(item)</code></td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>pop()</code></td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(\log N)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>LRUCache&lt;K, V&gt;</code></strong></td>
+<td style="text-align: left"><code>get(key)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>put(key, val)</code></td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>DisjointSetUnion</code></strong></td>
+<td style="text-align: left"><code>find(x)</code></td>
+<td style="text-align: left">$\mathcal{O}(\alpha(N))$</td>
+<td style="text-align: left">$\mathcal{O}(\alpha(N))$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>union(x, y)</code></td>
+<td style="text-align: left">$\mathcal{O}(\alpha(N))$</td>
+<td style="text-align: left">$\mathcal{O}(\alpha(N))$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>Trie</code></strong></td>
+<td style="text-align: left"><code>search(word)</code></td>
+<td style="text-align: left">$\mathcal{O}(K)$</td>
+<td style="text-align: left">$\mathcal{O}(K)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left"><code>starts_with(pref)</code></td>
+<td style="text-align: left">$\mathcal{O}(K)$</td>
+<td style="text-align: left">$\mathcal{O}(K)$</td>
+<td style="text-align: left">$\mathcal{O}(1)$</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong><code>Graph</code></strong></td>
+<td style="text-align: left"><code>dijkstra(src)</code></td>
+<td style="text-align: left">$\mathcal{O}(E \log V)$</td>
+<td style="text-align: left">$\mathcal{O}(E \log V)$</td>
+<td style="text-align: left">$\mathcal{O}(V)$</td>
 </tr>
 </tbody>
 </table>
-<h2 id="stdio-example"><code>std::io</code> Example</h2>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::io::{</span><span style="color:#79C0FF">print</span><span style="color:#E6EDF3">, readLine};</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Please enter your name: "</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> readLine</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Welcome, "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> "!"</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
-<h2 id="stdfs-example"><code>std::fs</code> Example</h2>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::fs::{readFile, writeFile, exists};</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> path </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "config.json"</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#D2A8FF"> exists</span><span style="color:#E6EDF3">(path) {</span></span>
-<span class="line"><span style="color:#FF7B72">        let</span><span style="color:#E6EDF3"> content </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> readFile</span><span style="color:#E6EDF3">(path);</span></span>
-<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Config content: "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> content);</span></span>
-<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#D2A8FF">        writeFile</span><span style="color:#E6EDF3">(path, </span><span style="color:#A5D6FF">'{"version": 1}'</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Initialized default config."</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
-<h2 id="stdtime-monotonic-benchmarking"><code>std::time</code> Monotonic Benchmarking</h2>
-<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="prady"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> std::time::</span><span style="color:#FFA657">Instant</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">fn</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
-<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> start </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> Instant</span><span style="color:#E6EDF3">::</span><span style="color:#D2A8FF">now</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#E6EDF3">    </span></span>
-<span class="line"><span style="color:#8B949E">    // Perform intensive task</span></span>
-<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#FF7B72"> mut</span><span style="color:#E6EDF3"> total </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">;</span></span>
-<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#FF7B72"> let</span><span style="color:#FF7B72"> mut</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">; i </span><span style="color:#FF7B72">&lt;</span><span style="color:#79C0FF"> 100000</span><span style="color:#E6EDF3">; i </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">+</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3"> {</span></span>
-<span class="line"><span style="color:#E6EDF3">        total </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> total </span><span style="color:#FF7B72">+</span><span style="color:#E6EDF3"> i;</span></span>
-<span class="line"><span style="color:#E6EDF3">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#FF7B72">    let</span><span style="color:#E6EDF3"> elapsedMs </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> start.</span><span style="color:#D2A8FF">elapsedMillis</span><span style="color:#E6EDF3">();</span></span>
-<span class="line"><span style="color:#79C0FF">    print</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Finished in "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> elapsedMs </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> " ms."</span><span style="color:#E6EDF3">);</span></span>
-<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
-</article><!-- Bottom Page Controls --><footer class="doc-footer" data-astro-cid-ptuyl3tj><div class="edit-link-row" data-astro-cid-ptuyl3tj><a href="https://github.com/technopradyumn/prady/edit/main/src/content/docs/reference/standard-library.md" target="_blank" rel="noopener noreferrer" class="edit-link" data-astro-cid-ptuyl3tj><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-ptuyl3tj><path d="M12 20h9" data-astro-cid-ptuyl3tj></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" data-astro-cid-ptuyl3tj></path></svg><span data-astro-cid-ptuyl3tj>Edit this page on GitHub</span></a></div><div class="page-pagination" data-astro-cid-ptuyl3tj><a href="/docs/reference/data-structures" class="pagination-link prev" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>← Previous</span><span class="pagination-title" data-astro-cid-ptuyl3tj>28 Built-In Data Structures</span></a><a href="/docs/tooling/cli-reference" class="pagination-link next" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>Next →</span><span class="pagination-title" data-astro-cid-ptuyl3tj>Prady CLI Commands</span></a></div></footer></div></main><aside class="toc-sidebar" aria-label="Table of Contents" data-astro-cid-p33bl5ka><div class="toc-inner" data-astro-cid-p33bl5ka><h4 class="toc-title" data-astro-cid-p33bl5ka>On this page</h4><nav class="toc-nav" data-astro-cid-p33bl5ka><ul class="toc-list" id="toc-list" data-astro-cid-p33bl5ka><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#standard-modules" class="toc-link" data-slug="standard-modules" data-astro-cid-p33bl5ka>Standard Modules</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdio-example" class="toc-link" data-slug="stdio-example" data-astro-cid-p33bl5ka>std::io Example</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdfs-example" class="toc-link" data-slug="stdfs-example" data-astro-cid-p33bl5ka>std::fs Example</a></li><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#stdtime-monotonic-benchmarking" class="toc-link" data-slug="stdtime-monotonic-benchmarking" data-astro-cid-p33bl5ka>std::time Monotonic Benchmarking</a></li></ul></nav></div></aside><script>
+<p><em>Where $N$ is the number of elements, $K$ is word length, $\alpha(N)$ is the Inverse Ackermann function, and $V, E$ represent graph vertices and edges.</em></p>
+</article><!-- Bottom Page Controls --><footer class="doc-footer" data-astro-cid-ptuyl3tj><div class="edit-link-row" data-astro-cid-ptuyl3tj><a href="https://github.com/technopradyumn/prady/edit/main/src/content/docs/reference/dsa-complexity-guarantees.md" target="_blank" rel="noopener noreferrer" class="edit-link" data-astro-cid-ptuyl3tj><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" data-astro-cid-ptuyl3tj><path d="M12 20h9" data-astro-cid-ptuyl3tj></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" data-astro-cid-ptuyl3tj></path></svg><span data-astro-cid-ptuyl3tj>Edit this page on GitHub</span></a></div><div class="page-pagination" data-astro-cid-ptuyl3tj><a href="/docs/reference/llvm-codegen" class="pagination-link prev" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>← Previous</span><span class="pagination-title" data-astro-cid-ptuyl3tj>LLVM Native Codegen &amp; Linking</span></a><a href="/docs/tooling/cli-reference" class="pagination-link next" data-astro-cid-ptuyl3tj><span class="pagination-label" data-astro-cid-ptuyl3tj>Next →</span><span class="pagination-title" data-astro-cid-ptuyl3tj>Prady CLI Commands</span></a></div></footer></div></main><aside class="toc-sidebar" aria-label="Table of Contents" data-astro-cid-p33bl5ka><div class="toc-inner" data-astro-cid-p33bl5ka><h4 class="toc-title" data-astro-cid-p33bl5ka>On this page</h4><nav class="toc-nav" data-astro-cid-p33bl5ka><ul class="toc-list" id="toc-list" data-astro-cid-p33bl5ka><li class="toc-item depth-2" data-astro-cid-p33bl5ka><a href="#asymptotic-bounds-table" class="toc-link" data-slug="asymptotic-bounds-table" data-astro-cid-p33bl5ka>Asymptotic Bounds Table</a></li></ul></nav></div></aside><script>
   function setupScrollSpy() {
     const links = document.querySelectorAll('.toc-link');
     if (links.length === 0) return;

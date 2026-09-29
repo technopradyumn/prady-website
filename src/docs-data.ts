@@ -300,5 +300,95 @@ fn calculate() -> Result<Int, String> {
     seeAlso: [
       { title: 'CLI & Package Manager', link: '#guide-cli' }
     ]
+  },
+  {
+    id: 'guide-auto-import',
+    title: 'Auto-Import Dropdown & IDE Intelligence',
+    category: 'Guides',
+    subCategory: 'Tooling',
+    breadcrumbs: ['Guides', 'Tooling', 'Auto-Import & IDE'],
+    summary: 'Auto-import completions on typing, dot access, quick-fix error actions, unused import warnings, and organize imports.',
+    badge: 'VS Code Extension',
+    overview: `The Prady VS Code extension provides modern IDE auto-import dropdowns. Typing symbol names or pressing dot (\`.\`) surfaces standard library classes, functions, and tools. Selecting an item automatically imports it at the top of your file. Unused imports are highlighted as warnings, and unimported symbols show 1-click quick-fixes.`,
+    example: `// 1. Typing 'Vector' and selecting from completion dropdown:
+// -> Automatically prepends 'import std.dsa::Vector;'
+import std.dsa::Vector;
+
+fn main() {
+    let list = Vector();
+    list.push(42);
+    print("Item: " + list.get(0));
+}`,
+    seeAlso: [
+      { title: 'CLI & Package Manager', link: '#guide-cli' }
+    ]
+  },
+  {
+    id: 'guide-pattern-matching',
+    title: 'Enums, ADTs & Pattern Matching',
+    category: 'Language Reference',
+    subCategory: 'Types & Matching',
+    breadcrumbs: ['Language Reference', 'Types', 'Pattern Matching'],
+    summary: 'Algebraic Data Types with variant payloads and exhaustive match expressions.',
+    badge: 'Roadmap Phase 4',
+    overview: `Prady features algebraic enums where variants can carry rich data payloads. The \`match\` construct enforces compile-time exhaustiveness, preventing unhandled cases.`,
+    example: `enum Result<T, E> {
+    Ok(T),
+    Err(E)
+}
+
+fn handle(res: Result<Int, String>) {
+    match res {
+        Result::Ok(val) => print("Value: " + val),
+        Result::Err(err) => print("Error: " + err)
+    }
+}`,
+    seeAlso: [
+      { title: 'Error Handling, Option & Result Monads', link: '#guide-monads' }
+    ]
+  },
+  {
+    id: 'guide-async-http',
+    title: 'Async Runtime & HTTP Networking',
+    category: 'Language Reference',
+    subCategory: 'Async & Web',
+    breadcrumbs: ['Language Reference', 'Async & Web', 'HTTP Server'],
+    summary: 'Non-blocking task scheduler, green threads, HTTP router, and REST API server templates.',
+    badge: 'Roadmap Phase 7',
+    overview: `Prady includes a cooperative event loop runtime and lightweight HTTP engine for high-concurrency microservices with Clean Architecture scaffolding.`,
+    example: `import std.net::{HttpRouter, Request, Response};
+
+fn main() {
+    let mut router = HttpRouter::new();
+    router.get("/health", fn(req: Request) -> Response {
+        return Response::json("{\"status\": \"ok\"}");
+    });
+    print("Server ready on :8080");
+}`,
+    seeAlso: [
+      { title: 'Architecture as Code', link: '#guide-architecture' }
+    ]
+  },
+  {
+    id: 'guide-llvm-codegen',
+    title: 'LLVM Native Compilation & Linker',
+    category: 'Language Reference',
+    subCategory: 'Compiler',
+    breadcrumbs: ['Language Reference', 'Compiler', 'LLVM Native'],
+    summary: 'Prady Intermediate Representation (PradyIR), LLVM IR code emission, target triples, and native binary linking.',
+    badge: 'Roadmap Phase 3',
+    overview: `Prady compiles through PradyIR directly to textual LLVM IR, running optimizations (-O1 to -O3) and linking to standalone executables across Windows, macOS, Linux, and WASI.`,
+    example: `# Emit LLVM IR for inspection
+prady emit-llvm main.pr
+
+# Run DSA microbenchmarks
+prady bench
+
+# Run language conformance test suite
+prady conformance`,
+    seeAlso: [
+      { title: 'CLI & Package Manager', link: '#guide-cli' }
+    ]
   }
 ];
+
