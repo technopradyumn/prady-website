@@ -1583,6 +1583,14 @@ export class Evaluator {
 
 // --- Public Prady Engine Interface ---
 export class PradyCompiler {
+  static check(sourceCode: string): Diagnostic[] {
+    const lexer = new Lexer(sourceCode);
+    const lexResult = lexer.tokenize();
+    const parser = new Parser(lexResult.tokens);
+    const ast = parser.parseProgram();
+    return [...lexResult.errors, ...ast.diagnostics];
+  }
+
   static compileAndRun(sourceCode: string, printCallback: PrintCallback): CompileResult {
     const startTime = performance.now();
     const lexer = new Lexer(sourceCode);
@@ -1631,9 +1639,13 @@ export class PradyCompiler {
       runError = err.message || String(err);
     }
 
+    const runtimeDiagnostics: Diagnostic[] = runError
+      ? [{ level: 'error', line: 0, col: 0, message: runError }]
+      : [];
+
     return {
       success: !runError,
-      diagnostics: [],
+      diagnostics: runtimeDiagnostics,
       architecture: archItem,
       archReports,
       runError,

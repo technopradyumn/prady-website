@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Prady Error Guide · Diagnose and Fix Compiler Errors"
+  description="Search Prady compiler and runtime errors, include your code, and get targeted steps and documentation links."
+>
+  <main class="error-guide container">
+    <header>
+      <span class="badge">Troubleshooting</span>
+      <h1>Find a fix for a Prady error</h1>
+      <p>Paste the error message and the relevant code. The guide uses both to suggest a likely cause and the next steps.</p>
+    </header>
+    <form id="error-search-form" class="error-search-form">
+      <label for="error-message">Error message</label>
+      <input id="error-message" name="error" type="search" placeholder="For example: Undefined variable 'coutner'" autocomplete="off" />
+      <label for="error-code">Relevant Prady code (optional)</label>
+      <textarea id="error-code" name="code" rows="9" spellcheck="false" placeholder="Paste the code around the error here"></textarea>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Find a solution</button>
+        <span>Code stays in your browser and is not uploaded.</span>
+      </div>
+    </form>
+    <section id="error-results" class="error-results" aria-live="polite" hidden>
+      <h2 id="error-title"></h2>
+      <p id="error-summary"></p>
+      <pre id="error-context" hidden><code></code></pre>
+      <ol id="error-steps"></ol>
+      <a id="error-docs-link" class="btn btn-secondary" href="/docs/reference/keywords-and-syntax">Open related documentation</a>
+    </section>
+    <aside class="error-guide-note">
+      The browser playground runs a single-file interpreter and reports syntax and runtime errors. For project imports, native compilation, and full editor diagnostics, install the CLI and VS Code extension from the <a href="/download">downloads page</a>.
+    </aside>
+  </main>
+</BaseLayout>
+
+<script>
+  import { resolvePradyError } from '../engine/editor-tools.js';
+
+  const form = document.getElementById('error-search-form') as HTMLFormElement;
+  const messageInput = document.getElementById('error-message') as HTMLInputElement;
+  const codeInput = document.getElementById('error-code') as HTMLTextAreaElement;
+  const resultPanel = document.getElementById('error-results') as HTMLElement;
+  const title = document.getElementById('error-title') as HTMLElement;
+  const summary = document.getElementById('error-summary') as HTMLElement;
+  const context = document.getElementById('error-context') as HTMLElement;
+  const contextCode = context.querySelector('code') as HTMLElement;
+  const steps = document.getElementById('error-steps') as HTMLOListElement;
+  const docsLink = document.getElementById('error-docs-link') as HTMLAnchorElement;
+
+  function showSolution(message: string, source: string, line: number | null) {
+    if (!message.trim()) {
+      resultPanel.hidden = true;
+      return;
+    }
+    const advice = resolvePradyError(message, source);
+    title.textContent = advice.title;
+    summary.textContent = `For error: ${message}`;
+    steps.replaceChildren();
+    advice.steps.forEach((step) => {
+      const item = document.createElement('li');
+      item.textContent = step;
+      steps.appendChild(item);
+    });
+    docsLink.href = advice.docsUrl;
+    context.hidden = true;
+    if (line && source) {
+      const sourceLines = source.split('\n');
+      const first = Math.max(0, line - 2);
+      const last = Math.min(sourceLines.length, line + 1);
+      contextCode.textContent = sourceLines
+        .slice(first, last)
+        .map((sourceLine, index) => `${first + index + 1 === line ? '›' : ' '} ${first + index + 1} | ${sourceLine}`)
+        .join('\n');
+      context.hidden = false;
+    }
+    resultPanel.hidden = false;
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const rawMessage = messageInput.value.trim();
+    const diagnosticLine = rawMessage.match(/(?:-->.*?:)?line\s+(\d+):\d+/i);
+    const message = rawMessage.replace(/^\s*(?:error|warning)(?:\[[^\]]+\])?:\s*/i, '').split(/\r?\n\s*-->/)[0];
+    const line = Number(new URLSearchParams(location.search).get('line') || diagnosticLine?.[1] || 0) || null;
+    const params = new URLSearchParams();
+    params.set('error', message);
+    if (codeInput.value) params.set('code', codeInput.value);
+    if (line) params.set('line', String(line));
+    history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
+    showSolution(message, codeInput.value, line);
+  });
+
+  const params = new URLSearchParams(location.search);
+  messageInput.value = params.get('error') || params.get('q') || '';
+  codeInput.value = params.get('code') || '';
+  const initialLine = Number(params.get('line') || 0) || null;
+  if (messageInput.value) showSolution(messageInput.value, codeInput.value, initialLine);
+</script>
+
+<style>
+  .error-guide { max-width: 850px; padding-top: 4rem; padding-bottom: 5rem; }
+  .error-guide header { margin-bottom: 2rem; }
+  .error-guide h1 { margin-top: 1rem; }
+  .error-search-form, .error-results, .error-guide-note {
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-card);
+  }
+  .error-search-form { display: grid; gap: 0.65rem; }
+  .error-search-form label { margin-top: 0.35rem; color: var(--text-primary); font-weight: 650; }
+  .error-search-form input, .error-search-form textarea {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+  }
+  .error-search-form textarea { font-family: var(--font-mono); font-size: 0.9rem; resize: vertical; }
+  .form-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .form-actions span { color: var(--text-muted); font-size: 0.82rem; }
+  .error-results[hidden] { display: none; }
+  .error-results h2 { margin-top: 0; }
+  .error-results li { margin: 0.65rem 0 0 1.25rem; color: var(--text-secondary); }
+  .error-results pre { white-space: pre-wrap; }
+  .error-guide-note { color: var(--text-secondary); }
+</style>

@@ -1,5 +1,6 @@
 ---
 // Footer.astro
+import latestData from '../../public/latest.json';
 ---
 
 <footer class="site-footer">
@@ -15,7 +16,7 @@
           A statically-typed systems and application programming language with built-in architecture-as-code verification, 28 native data structures, and zero-cost LLVM compilation.
         </p>
         <div class="footer-badges">
-          <span class="badge">v1.0.0 GA</span>
+          <span class="badge">v{latestData.version}</span>
           <span class="badge">Open Source (MIT)</span>
         </div>
       </div>

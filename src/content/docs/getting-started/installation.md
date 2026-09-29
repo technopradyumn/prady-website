@@ -1,6 +1,6 @@
 ---
 title: "Installation & Setup"
-description: "How to install and build the official Prady compiler directly from GitHub."
+description: "Install the Prady CLI and language server on Windows, macOS, or Linux, then configure editor support."
 category: "Getting Started"
 order: 2
 prev:
@@ -11,85 +11,70 @@ next:
   slug: "/docs/getting-started/hello-world"
 ---
 
-The Prady toolchain includes:
-- **`prady`**: The native compiler, interpreter runner, and package manager.
-- **`prady-lsp`**: The Language Server Protocol (LSP) daemon providing autocomplete, hover information, diagnostics, and go-to-definition in editors like VS Code.
+## Install Prady
 
----
+The one-line installer downloads the latest release, installs both `prady` and `prady-lsp` into your user profile, and adds the install directory to your user `PATH`. A Rust toolchain and administrator privileges are not required.
 
-## 📦 Installing from GitHub
+### Windows PowerShell
 
-Prady is built using Rust (workspace edition 2021+). You can install and build the toolchain directly from GitHub:
+Run this in **PowerShell** (not directly in Command Prompt):
 
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/technopradyumn/prady.git
-cd prady
+```powershell
+irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex
 ```
 
-### Step 2: Build the Compiler & LSP
+From **Command Prompt (`cmd.exe`)**, launch PowerShell explicitly:
 
-Compile the native release binaries using Cargo:
+```cmd
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex"
+```
 
-```bash
+`irm` and `iex` are PowerShell aliases; CMD does not recognize them as commands. After installation, open a new terminal so it receives the updated `PATH`.
+
+### macOS and Linux
+
+Run this in Bash or Zsh:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh
+```
+
+The installer detects the operating system and CPU architecture, downloads the corresponding release, and updates the current user's shell profile.
+
+### Verify and run
+
+```sh
+prady version
+prady run path/to/hello.pr
+```
+
+On Windows, the same commands work in a newly opened PowerShell or Command Prompt window. If the command is still not found, confirm that `%USERPROFILE%\.prady\bin` (Windows) or `$HOME/.prady/bin` (macOS/Linux) appears in your user `PATH`, then open another terminal.
+
+## Download an archive manually
+
+The [downloads page](/download) provides the current release archives and checksums for Windows x64, macOS Intel/Apple Silicon, and Linux x64/ARM64. Extract the archive and run `prady`/`prady.exe` from the extracted directory, or add that directory to your user `PATH`.
+
+## Build from source
+
+If you want to contribute to Prady or build it yourself, install Rust and run:
+
+```sh
+git clone https://github.com/technopradyumn/prady.git
+cd prady
 cargo build --release
 ```
 
-The compiled native binaries are generated at:
-- `target/release/prady` (or `prady.exe` on Windows)
-- `target/release/prady-lsp` (or `prady-lsp.exe` on Windows)
+`cargo build --release` creates binaries under `target/release`; it does **not** add `prady` to `PATH`. To install the CLI and language server globally through Cargo:
 
-### Step 3: Install Globally on Your System (Recommended)
-
-To make `prady` accessible anywhere across your system from any terminal window:
-
-```bash
+```sh
 cargo install --path compiler/prady-cli
 cargo install --path compiler/prady-lsp
 ```
 
-Ensure Cargo's bin directory (`~/.cargo/bin` or `%USERPROFILE%\.cargo\bin`) is in your system's `PATH`.
+You can also run the built binary by its full path, for example `target/release/prady run examples/hello.pr` (use `.\target\release\prady.exe` on Windows).
 
----
+## VS Code support
 
-## ✅ Verifying the Installation
+Install **Prady Language** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=technopradyumn.prady-lang), or use **Extensions → Install from VSIX...** with a package from the [extension releases](https://github.com/technopradyumn/vscode-prady/releases/latest). The extension provides `.pr` syntax highlighting, parser/import diagnostics, project symbol completions and run/check commands.
 
-To verify that the compiler is correctly installed and accessible, open a terminal window and run:
-
-```bash
-prady version
-```
-
-You should see output similar to:
-
-```text
-Prady Compiler v1.0.0 (x86_64-pc-windows-msvc)
-LLVM Backend Version 18.1.0
-Build Date: 2026-09-28
-```
-
-Run your first program directly:
-
-```bash
-prady run examples/hello.pr
-```
-
-Or evaluate a quick snippet inline:
-
-```bash
-prady eval 'print("Hello from Prady!");'
-```
-
----
-
-## 💻 Configuring the VS Code Extension
-
-For first-class editor support with syntax highlighting, live diagnostics, autocomplete, and architecture rule enforcement:
-
-1. Open Visual Studio Code.
-2. Press `Ctrl+Shift+X` (or `Cmd+Shift+X` on macOS) to open the **Extensions** panel.
-3. Search for **Prady Language**.
-4. Click **Install**.
-
-The extension automatically discovers `prady-lsp` on your `PATH` and starts providing instant IDE intelligence for all `.pr` files.
+For current editor limitations and troubleshooting, see [VS Code & Language Server](/docs/tooling/editor-extensions) and [Errors & Troubleshooting](/docs/tooling/troubleshooting).

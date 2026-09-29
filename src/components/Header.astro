@@ -1,6 +1,7 @@
 ---
 // Header.astro
 import ThemeToggle from './ThemeToggle.astro';
+import latestData from '../../public/latest.json';
 
 interface Props {
   activeNav?: 'handbook' | 'docs' | 'reference' | 'tooling' | 'play' | 'download';
@@ -17,7 +18,7 @@ const { activeNav } = Astro.props;
         <div class="brand-badge">.pr</div>
         <span class="brand-title">Prady</span>
       </a>
-      <span class="version-pill" title="Current Release">v1.0.0 GA</span>
+      <span class="version-pill" title="Current Release">v{latestData.version}</span>
     </div>
 
     <!-- Search Trigger Bar -->

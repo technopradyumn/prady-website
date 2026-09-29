@@ -1,7 +1,7 @@
 import { DocItem, MethodDoc } from './types';
 import { DSA_DOCS } from './dsa-docs';
 import { LANGUAGE_GUIDES } from './docs-data';
-import { PradyCompiler } from './prady-engine';
+import { PradyCompiler } from './engine/prady-engine';
 
 class DocApp {
   private allDocs: DocItem[] = [];

@@ -6,12 +6,13 @@ import fs from 'node:fs';
 const latestData = JSON.parse(
   fs.readFileSync('./public/latest.json', 'utf-8')
 );
+const assetFilename = (url: string) => new URL(url).pathname.split('/').pop() || '';
 
 const downloads = [
   {
     platform: 'Windows (x64)',
     icon: '🪟',
-    filename: 'prady-v1.0.0-x86_64-pc-windows-msvc.zip',
+    filename: assetFilename(latestData.assets['windows-x64'].url),
     url: latestData.assets['windows-x64'].url,
     checksum: latestData.assets['windows-x64'].checksum,
     arch: 'x86_64'
@@ -19,7 +20,7 @@ const downloads = [
   {
     platform: 'macOS Apple Silicon',
     icon: '🍎',
-    filename: 'prady-v1.0.0-aarch64-apple-darwin.tar.gz',
+    filename: assetFilename(latestData.assets['macos-arm'].url),
     url: latestData.assets['macos-arm'].url,
     checksum: latestData.assets['macos-arm'].checksum,
     arch: 'Apple Silicon (M1/M2/M3/M4)'
@@ -27,7 +28,7 @@ const downloads = [
   {
     platform: 'macOS Intel',
     icon: '🍎',
-    filename: 'prady-v1.0.0-x86_64-apple-darwin.tar.gz',
+    filename: assetFilename(latestData.assets['macos-intel'].url),
     url: latestData.assets['macos-intel'].url,
     checksum: latestData.assets['macos-intel'].checksum,
     arch: 'x86_64 Intel Mac'
@@ -35,7 +36,7 @@ const downloads = [
   {
     platform: 'Linux (x64)',
     icon: '🐧',
-    filename: 'prady-v1.0.0-x86_64-unknown-linux-gnu.tar.gz',
+    filename: assetFilename(latestData.assets['linux-x64'].url),
     url: latestData.assets['linux-x64'].url,
     checksum: latestData.assets['linux-x64'].checksum,
     arch: 'x86_64 GNU/Linux'
@@ -43,7 +44,7 @@ const downloads = [
   {
     platform: 'Linux (ARM64)',
     icon: '🐧',
-    filename: 'prady-v1.0.0-aarch64-unknown-linux-gnu.tar.gz',
+    filename: assetFilename(latestData.assets['linux-arm'].url),
     url: latestData.assets['linux-arm'].url,
     checksum: latestData.assets['linux-arm'].checksum,
     arch: 'aarch64 GNU/Linux'
@@ -52,7 +53,7 @@ const downloads = [
 ---
 
 <BaseLayout 
-  title="Download Prady Binaries (v1.0.0 GA) · Official Releases"
+  title={`Download Prady ${latestData.version} · Official Releases`}
   description="Download official standalone binaries for the Prady Programming Language across Windows, macOS, and Linux."
   activeNav="download"
 >
@@ -87,16 +88,17 @@ const downloads = [
         <div class="installer-card">
           <div class="card-header">
             <span class="os-tag">Windows</span>
-            <span class="shell-tag">PowerShell / CMD</span>
+            <span class="shell-tag">PowerShell</span>
           </div>
           <div class="command-box">
             <code>irm {latestData.assets['install-ps1']} | iex</code>
           </div>
-          <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 0.5rem; margin-bottom: 0;">
-            In Command Prompt (cmd.exe), run: <code>powershell -c "irm {latestData.assets['install-ps1']} | iex"</code>
+          <p class="installer-note">
+            In Command Prompt, run: <code>powershell -NoProfile -ExecutionPolicy Bypass -Command "irm {latestData.assets['install-ps1']} | iex"</code>
           </p>
         </div>
       </div>
+      <p class="installer-note">After installation, open a new terminal and verify with <code>prady version</code>. The installers add the CLI and language server to your user PATH; no Rust toolchain or administrator access is required.</p>
     </div>
 
     <!-- Binary Downloads Grid -->
@@ -168,13 +170,20 @@ const downloads = [
     <div class="verification-box">
       <h3 class="verify-title">Verifying Binary Integrity</h3>
       <p class="verify-text">
-        Every official release is cryptographically hashed. You can verify your downloaded archive before extracting:
+        Every official release archive has a SHA-256 checksum. Compare the downloaded file with its matching checksum before extracting:
       </p>
       <pre><code># Linux / macOS
-sha256sum prady-v1.0.0-*.tar.gz
+sha256sum -c prady-*.tar.gz.sha256
 
 # Windows PowerShell
-Get-FileHash -Algorithm SHA256 .\\prady-v1.0.0-*.zip</code></pre>
+Get-FileHash -Algorithm SHA256 .\\prady-*.zip</code></pre>
+    </div>
+
+    <div class="verification-box">
+      <h3 class="verify-title">VS Code Extension</h3>
+      <p class="verify-text">Install from the VS Code Marketplace when available, or download the packaged extension from the extension project's GitHub releases.</p>
+      <a class="btn btn-secondary" href="https://marketplace.visualstudio.com/items?itemName=technopradyumn.prady-lang" target="_blank" rel="noopener noreferrer">VS Code Marketplace</a>
+      <a class="btn btn-outline" href="https://github.com/technopradyumn/vscode-prady/releases/latest" target="_blank" rel="noopener noreferrer">Extension releases</a>
     </div>
   </div>
 </BaseLayout>
@@ -225,6 +234,13 @@ Get-FileHash -Algorithm SHA256 .\\prady-v1.0.0-*.zip</code></pre>
 
   .installers-section {
     margin-bottom: 3.5rem;
+  }
+
+  .installer-note {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
   }
 
   .installers-grid {

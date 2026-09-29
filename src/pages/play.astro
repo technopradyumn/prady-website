@@ -61,9 +61,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="pg-editor-pane">
         <div class="pane-header">
           <div class="pane-tab active">main.pr</div>
-          <div class="editor-shortcuts-hint">Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</div>
+          <div class="editor-header-actions">
+            <div class="editor-shortcuts-hint">Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run</div>
+            <button id="editor-find-toggle" class="editor-find-toggle" type="button" title="Find in code (Ctrl+F)">Find</button>
+          </div>
+        </div>
+        <div id="editor-find-bar" class="editor-find-bar" hidden>
+          <input id="editor-find-input" type="search" placeholder="Find in code" aria-label="Find in code" />
+          <input id="editor-replace-input" type="text" placeholder="Replace with" aria-label="Replace with" />
+          <button id="editor-find-next" type="button">Next</button>
+          <button id="editor-replace-all" type="button">Replace all</button>
+          <button id="editor-find-close" type="button" aria-label="Close find">×</button>
         </div>
         <div class="editor-area-wrapper">
+          <pre id="prady-highlight" class="prady-highlight" aria-hidden="true"><code></code></pre>
           <textarea 
             id="prady-editor" 
             class="prady-editor-textarea" 
@@ -71,7 +82,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             autocapitalize="off" 
             autocomplete="off"
             placeholder="Write Prady code here..."
+            aria-label="Prady code editor"
           ></textarea>
+        </div>
+        <div class="editor-statusbar">
+          <span id="editor-position">Ln 1, Col 1</span>
+          <span id="editor-stats">1 line</span>
         </div>
       </div>
 
@@ -257,23 +273,119 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: flex;
     background-color: var(--code-bg);
     position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .prady-highlight,
+  .prady-editor-textarea {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 1.25rem;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: normal;
+    tab-size: 4;
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .prady-highlight {
+    overflow: hidden;
+    color: #e2e8f0;
+    pointer-events: none;
+    user-select: none;
   }
 
   .prady-editor-textarea {
-    width: 100%;
-    height: 100%;
-    border: none;
+    z-index: 1;
     outline: none;
     background-color: transparent;
-    color: var(--code-text);
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    line-height: 1.65;
-    padding: 1.25rem;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    caret-color: #f8fafc;
     resize: none;
-    tab-size: 4;
-    white-space: pre;
-    overflow-y: auto;
+    overflow: auto;
+    scrollbar-color: #475569 transparent;
+  }
+
+  .prady-editor-textarea::selection {
+    background: rgba(59, 130, 246, 0.38);
+  }
+
+  :global(.code-line) {
+    display: block;
+    min-height: 1.65em;
+  }
+
+  :global(.code-line.has-error) {
+    background: rgba(239, 68, 68, 0.16);
+    box-shadow: inset 3px 0 #ef4444;
+  }
+
+  :global(.token-keyword) { color: #c084fc; }
+  :global(.token-type) { color: #67e8f9; }
+  :global(.token-string) { color: #86efac; }
+  :global(.token-number), :global(.token-constant) { color: #fbbf24; }
+  :global(.token-function) { color: #93c5fd; }
+  :global(.token-comment) { color: #94a3b8; font-style: italic; }
+
+  .editor-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .editor-find-toggle,
+  .editor-find-bar button {
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  .editor-find-bar {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .editor-find-bar[hidden] { display: none; }
+
+  .editor-find-bar input {
+    min-width: 0;
+    width: 32%;
+    padding: 0.3rem 0.45rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 0.78rem;
+  }
+
+  .editor-statusbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
   }
 
   .output-tabs {
@@ -401,6 +513,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   :global(.diag-item) {
+    display: block;
+    width: 100%;
+    text-align: left;
     padding: 0.65rem 0.85rem;
     border-radius: 6px;
     margin-bottom: 0.5rem;
@@ -409,6 +524,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #fca5a5;
     font-family: var(--font-mono);
     font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  :global(.diag-item:hover) {
+    border-color: #ef4444;
+  }
+
+  :global(.diag-help) {
+    display: block;
+    margin-top: 0.45rem;
+    color: #fecaca;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    white-space: normal;
+  }
+
+  :global(.diag-resolution-link) {
+    display: inline-block;
+    margin-top: 0.45rem;
+    color: #93c5fd;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
   }
 
   @media (max-width: 800px) {
@@ -425,6 +563,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <script>
   import { PradyCompiler } from '../engine/prady-engine';
+  import { highlightPradyCode, resolvePradyError } from '../engine/editor-tools.js';
 
   const EXAMPLES: Record<string, string> = {
     hello: `// Prady v1.0.0 GA - Hello World & Higher-Order Methods
@@ -568,8 +707,16 @@ main();`
     const archDot = document.getElementById('arch-status-dot') as HTMLElement;
     const diagList = document.getElementById('diag-list') as HTMLElement;
     const diagBadge = document.getElementById('diag-count') as HTMLElement;
+    const highlight = document.getElementById('prady-highlight') as HTMLElement;
+    const findBar = document.getElementById('editor-find-bar') as HTMLDivElement;
+    const findInput = document.getElementById('editor-find-input') as HTMLInputElement;
+    const replaceInput = document.getElementById('editor-replace-input') as HTMLInputElement;
+    const editorPosition = document.getElementById('editor-position') as HTMLElement;
+    const editorStats = document.getElementById('editor-stats') as HTMLElement;
 
     if (!editor || !runBtn) return;
+    let liveDiagnostics: Array<{ level: 'error' | 'warning'; line: number; col: number; message: string }> = [];
+    let diagnosticTimer: ReturnType<typeof setTimeout> | undefined;
 
     // Load from URL query param if present
     const urlParams = new URLSearchParams(window.location.search);
@@ -584,12 +731,95 @@ main();`
       editor.value = EXAMPLES.hello;
     }
 
+    function updateEditorDecorations() {
+      if (highlight) {
+        const errorLines = liveDiagnostics
+          .filter((diagnostic) => diagnostic.line > 0)
+          .map((diagnostic) => diagnostic.line);
+        const codeLayer = highlight.querySelector('code');
+        if (codeLayer) codeLayer.innerHTML = highlightPradyCode(editor.value, errorLines);
+        highlight.scrollTop = editor.scrollTop;
+        highlight.scrollLeft = editor.scrollLeft;
+      }
+      if (editorStats) {
+        const lines = editor.value.split('\n').length;
+        editorStats.textContent = `${lines} ${lines === 1 ? 'line' : 'lines'} · ${editor.value.length} chars`;
+      }
+      updateCursorPosition();
+    }
+
+    function updateCursorPosition() {
+      if (!editorPosition) return;
+      const beforeCursor = editor.value.slice(0, editor.selectionStart);
+      const line = beforeCursor.split('\n').length;
+      const col = beforeCursor.length - beforeCursor.lastIndexOf('\n');
+      editorPosition.textContent = `Ln ${line}, Col ${col}`;
+    }
+
+    function renderDiagnostics(diagnostics: typeof liveDiagnostics) {
+      liveDiagnostics = diagnostics;
+      updateEditorDecorations();
+      if (!diagList || !diagBadge) return;
+      diagList.replaceChildren();
+      if (diagnostics.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'diag-empty';
+        empty.textContent = 'No syntax or compiler diagnostics. Code is clean.';
+        diagList.appendChild(empty);
+        diagBadge.classList.add('hidden');
+        return;
+      }
+
+      diagBadge.textContent = String(diagnostics.length);
+      diagBadge.classList.remove('hidden');
+      diagnostics.forEach((diagnostic) => {
+        const help = resolvePradyError(diagnostic.message, editor.value);
+        const item = document.createElement('div');
+        item.className = 'diag-item';
+        item.setAttribute('role', diagnostic.line > 0 ? 'button' : 'group');
+        if (diagnostic.line > 0) {
+          item.tabIndex = 0;
+          item.addEventListener('click', () => {
+            const lines = editor.value.split('\n');
+            const offset = lines.slice(0, diagnostic.line - 1).reduce((total, line) => total + line.length + 1, 0);
+            const position = Math.min(offset + Math.max(diagnostic.col - 1, 0), editor.value.length);
+            editor.focus();
+            editor.setSelectionRange(position, position);
+            updateCursorPosition();
+          });
+        }
+        const title = document.createElement('strong');
+        title.textContent = diagnostic.line > 0
+          ? `[Line ${diagnostic.line}, Col ${diagnostic.col}] ${diagnostic.message}`
+          : `Runtime error: ${diagnostic.message}`;
+        item.appendChild(title);
+        const resolution = document.createElement('span');
+        resolution.className = 'diag-help';
+        resolution.textContent = `${help.title}. ${help.steps.join(' ')}`;
+        item.appendChild(resolution);
+        const link = document.createElement('a');
+        const params = new URLSearchParams({ error: diagnostic.message, code: editor.value });
+        if (diagnostic.line > 0) params.set('line', String(diagnostic.line));
+        link.href = `/errors?${params.toString()}`;
+        link.className = 'diag-resolution-link';
+        link.textContent = 'View error guide →';
+        link.addEventListener('click', (event) => event.stopPropagation());
+        item.appendChild(link);
+        diagList.appendChild(item);
+      });
+    }
+
+    function updateLiveDiagnostics() {
+      renderDiagnostics(PradyCompiler.check(editor.value));
+    }
+
     // Example switch
     if (exampleSelect) {
       exampleSelect.addEventListener('change', () => {
         const key = exampleSelect.value;
         if (EXAMPLES[key]) {
           editor.value = EXAMPLES[key];
+          updateLiveDiagnostics();
           executeCode();
         }
       });
@@ -600,6 +830,7 @@ main();`
       resetBtn.addEventListener('click', () => {
         editor.value = EXAMPLES.hello;
         if (exampleSelect) exampleSelect.value = 'hello';
+        updateLiveDiagnostics();
         executeCode();
       });
     }
@@ -649,8 +880,7 @@ main();`
       };
 
       try {
-        const compiler = new PradyCompiler(printCb);
-        const result = compiler.compileAndRun(code);
+        const result = PradyCompiler.compileAndRun(code, printCb);
 
         // Update Console Output
         if (timeBadge) timeBadge.textContent = `${result.durationMs}ms`;
@@ -668,20 +898,7 @@ main();`
         if (consoleOutput) consoleOutput.textContent = outputText;
 
         // Update Diagnostics Tab
-        if (diagList && diagBadge) {
-          if (result.diagnostics.length === 0) {
-            diagList.innerHTML = '<div class="diag-empty">No syntax or compiler diagnostics. Code is clean.</div>';
-            diagBadge.classList.add('hidden');
-          } else {
-            diagBadge.textContent = String(result.diagnostics.length);
-            diagBadge.classList.remove('hidden');
-            diagList.innerHTML = result.diagnostics.map(d => `
-              <div class="diag-item">
-                <strong>[Line ${d.line}, Col ${d.col}]:</strong> ${d.message}
-              </div>
-            `).join('');
-          }
-        }
+        renderDiagnostics(result.diagnostics);
 
         // Update Architecture Tab
         if (archOutput && archDot) {
@@ -702,7 +919,9 @@ main();`
         }
 
       } catch (err: any) {
-        if (consoleOutput) consoleOutput.textContent = `Internal evaluation error: ${err.message || err}`;
+        const message = err instanceof Error ? err.message : String(err);
+        if (consoleOutput) consoleOutput.textContent = `Internal evaluation error: ${message}`;
+        renderDiagnostics([{ level: 'error', line: 0, col: 0, message }]);
       }
     }
 
@@ -714,17 +933,71 @@ main();`
         e.preventDefault();
         executeCode();
       }
-      // Tab key indentation support in textarea
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        if (findBar) findBar.hidden = false;
+        findInput?.focus();
+        findInput?.select();
+      }
+      // Indent selections and add the current indentation on a new line.
       if (e.key === 'Tab') {
         e.preventDefault();
         const start = editor.selectionStart;
         const end = editor.selectionEnd;
         editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
         editor.selectionStart = editor.selectionEnd = start + 4;
+        editor.dispatchEvent(new Event('input', { bubbles: true }));
+      } else if (e.key === 'Enter' && editor.selectionStart === editor.selectionEnd) {
+        const start = editor.selectionStart;
+        const lineStart = editor.value.lastIndexOf('\n', start - 1) + 1;
+        const indentation = editor.value.slice(lineStart, start).match(/^\s*/)?.[0] || '';
+        e.preventDefault();
+        editor.value = `${editor.value.slice(0, start)}\n${indentation}${editor.value.slice(start)}`;
+        editor.selectionStart = editor.selectionEnd = start + indentation.length + 1;
+        editor.dispatchEvent(new Event('input', { bubbles: true }));
       }
     });
 
+    editor.addEventListener('input', () => {
+      updateEditorDecorations();
+      if (diagnosticTimer) clearTimeout(diagnosticTimer);
+      diagnosticTimer = setTimeout(updateLiveDiagnostics, 250);
+    });
+    editor.addEventListener('scroll', updateEditorDecorations);
+    editor.addEventListener('click', updateCursorPosition);
+    editor.addEventListener('keyup', updateCursorPosition);
+
+    document.getElementById('editor-find-toggle')?.addEventListener('click', () => {
+      if (findBar) findBar.hidden = false;
+      findInput?.focus();
+      findInput?.select();
+    });
+    document.getElementById('editor-find-close')?.addEventListener('click', () => {
+      if (findBar) findBar.hidden = true;
+      editor.focus();
+    });
+    document.getElementById('editor-find-next')?.addEventListener('click', () => {
+      const query = findInput?.value;
+      if (!query) return;
+      const start = editor.selectionEnd;
+      const match = editor.value.indexOf(query, start);
+      const wrappedMatch = match < 0 ? editor.value.indexOf(query) : match;
+      if (wrappedMatch >= 0) {
+        editor.focus();
+        editor.setSelectionRange(wrappedMatch, wrappedMatch + query.length);
+      }
+    });
+    document.getElementById('editor-replace-all')?.addEventListener('click', () => {
+      const query = findInput?.value;
+      if (!query) return;
+      const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      editor.value = editor.value.replace(new RegExp(escaped, 'g'), replaceInput?.value || '');
+      editor.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
     // Run initially
+    updateEditorDecorations();
+    updateLiveDiagnostics();
     executeCode();
   }
 

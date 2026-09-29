@@ -2,6 +2,7 @@
 // index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CodeTabs from '../components/CodeTabs.astro';
+import latestData from '../../public/latest.json';
 ---
 
 <BaseLayout 
@@ -14,7 +15,7 @@ import CodeTabs from '../components/CodeTabs.astro';
       <div class="hero-badge-row">
         <a href="/download" class="release-pill">
           <span class="pill-tag">NEW</span>
-          <span class="pill-text">Prady v1.0.0 GA Released</span>
+          <span class="pill-text">Prady v{latestData.version} Released</span>
           <span class="pill-arrow">→</span>
         </a>
       </div>
@@ -43,18 +44,20 @@ import CodeTabs from '../components/CodeTabs.astro';
           Try in Playground
         </a>
         <a href="/download" class="btn btn-outline hero-btn">
-          Download v1.0.0
+          Download v{latestData.version}
         </a>
       </div>
 
       <!-- Quick Install Box -->
       <div class="quick-install-box">
-        <div class="install-tabs">
-          <button class="install-tab-btn active" id="tab-sh" data-cmd="git clone https://github.com/technopradyumn/prady.git && cd prady && cargo build --release">Install via GitHub</button>
+        <div class="install-tabs" aria-label="Choose your shell">
+          <button class="install-tab-btn active" id="tab-ps1" data-cmd="irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex">Windows PowerShell</button>
+          <button class="install-tab-btn" id="tab-cmd" data-cmd="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex&quot;">Command Prompt</button>
+          <button class="install-tab-btn" id="tab-sh" data-cmd="curl -fsSL https://raw.githubusercontent.com/technopradyumn/prady/main/install.sh | sh">macOS / Linux</button>
         </div>
         <div class="install-command-row">
-          <span class="terminal-prompt">$</span>
-          <code class="install-code" id="install-cmd-text">git clone https://github.com/technopradyumn/prady.git && cd prady && cargo build --release</code>
+          <span class="terminal-prompt">&gt;</span>
+          <code class="install-code" id="install-cmd-text">irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex</code>
           <button class="install-copy-btn" id="install-copy-btn" title="Copy to clipboard">
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -216,16 +219,16 @@ import CodeTabs from '../components/CodeTabs.astro';
           <div class="step-body">
             <div class="step-header">
               <h3 class="step-title">Install the Prady Toolchain</h3>
-              <span class="step-pill">Compiler & LSP</span>
+              <span class="step-pill">One-command install</span>
             </div>
             <p class="step-desc">
-              Clone the repository from GitHub and build the native compiler (<code>prady</code>) and language server (<code>prady-lsp</code>).
+              Install the latest native compiler and language server without setting up Rust or building from source.
             </p>
             
             <div class="step-code-card">
               <div class="step-code-header">
                 <div class="step-tabs">
-                  <span class="os-tag" style="color: var(--color-accent); font-weight: 600; font-size: 0.8rem; padding: 0.25rem 0.5rem;">GitHub</span>
+                  <span class="os-tag" style="color: var(--color-accent); font-weight: 600; font-size: 0.8rem; padding: 0.25rem 0.5rem;">Windows PowerShell</span>
                 </div>
                 <button class="copy-cmd-btn" id="vstep-copy-step1" title="Copy command">
                   <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
@@ -236,12 +239,11 @@ import CodeTabs from '../components/CodeTabs.astro';
                 </button>
               </div>
               <div class="step-code-content">
-                <code id="vstep-cmd-sh" class="cmd-line active">git clone https://github.com/technopradyumn/prady.git &amp;&amp; cd prady &amp;&amp; cargo build --release</code>
+                <code id="vstep-cmd-sh" class="cmd-line active">irm https://raw.githubusercontent.com/technopradyumn/prady/main/install.ps1 | iex</code>
               </div>
             </div>
             <div class="step-tip">
-              <span>💡 Install globally via Cargo:</span>
-              <code>cargo install --path compiler/prady-cli</code>
+              <span>💡 This command must be run in PowerShell. For Command Prompt, macOS, Linux, or a source build, see the <a href="/docs/getting-started/installation">installation guide</a>.</span>
             </div>
           </div>
         </div>
@@ -973,25 +975,17 @@ import CodeTabs from '../components/CodeTabs.astro';
 
 <script is:inline>
   function setupInteractiveElements() {
-    // 1. Hero Install Tabs
-    const tabSh = document.getElementById('tab-sh');
-    const tabPs1 = document.getElementById('tab-ps1');
+    // 1. Hero installer shell selector
     const cmdText = document.getElementById('install-cmd-text');
     const heroCopyBtn = document.getElementById('install-copy-btn');
-
-    if (tabSh && tabPs1 && cmdText) {
-      tabSh.addEventListener('click', () => {
-        tabSh.classList.add('active');
-        tabPs1.classList.remove('active');
-        cmdText.textContent = tabSh.getAttribute('data-cmd') || '';
+    const installTabs = document.querySelectorAll('.install-tab-btn');
+    installTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        installTabs.forEach((otherTab) => otherTab.classList.remove('active'));
+        tab.classList.add('active');
+        if (cmdText) cmdText.textContent = tab.getAttribute('data-cmd') || '';
       });
-
-      tabPs1.addEventListener('click', () => {
-        tabPs1.classList.add('active');
-        tabSh.classList.remove('active');
-        cmdText.textContent = tabPs1.getAttribute('data-cmd') || '';
-      });
-    }
+    });
 
     if (heroCopyBtn && cmdText) {
       heroCopyBtn.addEventListener('click', async () => {

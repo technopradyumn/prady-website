@@ -1,6 +1,5 @@
 # GitHub Actions: Deploy prady-website to Vercel
-# Deploys preview on every PR, production on every push to main.
-# No build step needed — pure static HTML/JS/CSS.
+# Builds and validates the website, then deploys preview or production to Vercel.
 
 name: Deploy Website
 
@@ -19,6 +18,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test error guidance helpers
+        run: npm test
+
+      - name: Build static website
+        run: npm run build
 
       - name: Install Vercel CLI
         run: npm install -g vercel
