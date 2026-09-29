@@ -158,7 +158,7 @@ export function highlightPradyCode(source, errorLines = []) {
     const lineNumber = index + 1;
     const errorClass = errors.has(lineNumber) ? ' has-error' : '';
     return `<span class="code-line${errorClass}" data-line="${lineNumber}">${highlighted.html}</span>`;
-  }).join('\n');
+  }).join('');
 }
 
 function editDistance(left, right) {

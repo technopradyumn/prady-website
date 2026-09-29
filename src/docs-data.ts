@@ -41,7 +41,7 @@ fn main() {
 - \`prady check <file.pr>\` - Performs full lexical, grammatical, semantic, and architecture policy validation without executing.
 - \`prady build <file.pr>\` - Compiles the project into an optimized native standalone binary using the LLVM backend.
 - \`prady add <package>\` - Adds a dependency to your \`prady.toml\` file with automatic semver tracking.
-- \`prady version\` - Displays the current compiler version and target platform.`,
+- \`prady version\` - Displays the installed CLI version.`,
     example: `# Run your program
 prady run main.pr
 
@@ -391,4 +391,3 @@ prady conformance`,
     ]
   }
 ];
-

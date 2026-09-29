@@ -103,9 +103,19 @@ This is ideal for fast git pre-commit hooks and CI sanity checks.
 
 ## `prady version`
 
-Outputs version information, target triple, and compiler commit hash:
+Prints the installed CLI version:
 
 ```bash
 prady version
 ```
 
+Use `input()` in a running program to read one line from standard input. An optional prompt is written before waiting:
+
+```prady
+fn main() {
+    let name = input("Name: ");
+    print("Hello " + name);
+}
+```
+
+Run it in a terminal with `prady run path/to/main.pr` and type a response when prompted. The VS Code **Prady: Run File** command uses an interactive terminal and accepts the same input.

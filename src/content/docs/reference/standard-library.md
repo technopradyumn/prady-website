@@ -15,12 +15,14 @@ The current Prady CLI provides built-in functions and data structures, and loads
 
 ## Built-in functions and data structures
 
-Common built-ins include `print`, `println`, `assert`, and `len`. The runtime also provides collection/string operations and the data structures listed in the [data-structure reference](/docs/reference/data-structures). The exact supported functions and methods are those implemented by the current compiler/runtime.
+Common built-ins include `print`, `println`, `input`, `assert`, and `len`. `input()` reads one line from standard input and returns it as a string; pass an optional string prompt to display before waiting. The runtime also provides collection/string operations and the data structures listed in the [data-structure reference](/docs/reference/data-structures). The exact supported functions and methods are those implemented by the current compiler/runtime.
 
 ```prady
 fn main() {
     let values = [1, 2, 3];
+    let name = input("Name: ");
     println("Count: " + len(values));
+    println("Hello " + name);
     assert(len(values) == 3, "the list should contain three values");
 }
 ```

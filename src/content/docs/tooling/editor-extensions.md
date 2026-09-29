@@ -38,6 +38,8 @@ The extension discovers the configured `prady-lsp`, a bundled platform binary (w
 3. Run **Prady: Run File** to execute the active file and send runtime output/errors to the editor terminal and Problems list.
 4. Click an error in **Problems** to navigate to its reported file and position.
 
+Programs can read a line with `input()` or show a prompt with `input("Name: ")`. The extension runs the CLI in an interactive terminal; type the requested value there and press Enter.
+
 The browser playground is a separate single-file interpreter. It cannot read local files or validate a multi-file project's imports. See [Errors & Troubleshooting](/docs/tooling/troubleshooting) for diagnostic scope and common fixes.
 
 ## The `prady-lsp` Executable

@@ -15,7 +15,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="pg-brand">
           <img class="pg-logo" src="/prady-logo.svg" alt="" />
           <span class="pg-title">Prady Playground</span>
-          <span class="version-tag">v1.0.0 Web Engine</span>
+          <span class="version-tag">Browser interpreter</span>
         </div>
 
         <div class="example-selector-wrapper">
@@ -111,6 +111,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="pane-body">
           <!-- Console View -->
           <div id="tab-console" class="output-tab-content active">
+            <label class="program-input-label" for="program-input">
+              <span>Program input</span>
+              <span>One line is consumed by each <code>input()</code> call</span>
+            </label>
+            <textarea id="program-input" class="program-input" rows="3" spellcheck="false" placeholder="Enter input for your program, one value per line" aria-label="Program input"></textarea>
             <pre id="console-output" class="console-pre"><code>Ready. Click "Run" or press Ctrl+Enter to compile and evaluate.</code></pre>
           </div>
 
@@ -303,6 +308,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
+    line-height: 1.65;
   }
 
   .prady-editor-textarea {
@@ -324,6 +330,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   :global(.code-line) {
     display: block;
     min-height: 1.65em;
+    line-height: 1.65;
+  }
+
+  .program-input-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.45rem;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .program-input-label span + span {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .program-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 4.5rem;
+    margin: 0 0 1rem;
+    padding: 0.65rem 0.75rem;
+    resize: vertical;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: 0.85rem/1.5 var(--font-mono);
+  }
+
+  .program-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
   }
 
   :global(.code-line.has-error) {
@@ -710,6 +752,7 @@ main();`
     const exampleSelect = document.getElementById('example-select') as HTMLSelectElement;
 
     const consoleOutput = document.getElementById('console-output') as HTMLElement;
+    const programInput = document.getElementById('program-input') as HTMLTextAreaElement;
     const timeBadge = document.getElementById('run-time-badge') as HTMLElement;
     const archOutput = document.getElementById('arch-output') as HTMLElement;
     const archDot = document.getElementById('arch-status-dot') as HTMLElement;
@@ -909,12 +952,23 @@ main();`
     function executeCode() {
       const code = editor.value;
       const logs: string[] = [];
+      const inputLines = programInput?.value ? programInput.value.split(/\r?\n/) : [];
+      let nextInputLine = 0;
       const printCb = (text: string) => {
         logs.push(text);
       };
+      const inputCb = (prompt: string) => {
+        if (nextInputLine >= inputLines.length) {
+          throw new Error('No program input available. Add another line in the Program input box and run again.');
+        }
+        const value = inputLines[nextInputLine] ?? '';
+        nextInputLine += 1;
+        logs.push(`${prompt}${value}`);
+        return value;
+      };
 
       try {
-        const result = PradyCompiler.compileAndRun(code, printCb);
+        const result = PradyCompiler.compileAndRun(code, printCb, inputCb);
         runtimeDiagnostic = result.runError
           ? { level: 'error', line: 0, col: 0, message: result.runError }
           : undefined;

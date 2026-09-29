@@ -14,6 +14,12 @@ test('syntax highlighting marks parser error lines', () => {
   assert.match(highlightPradyCode('fn main() {\n  print(1)\n}', [2]), /class="code-line has-error" data-line="2"/);
 });
 
+test('syntax highlighting does not add extra line breaks between editor lines', () => {
+  const highlighted = highlightPradyCode('first\nsecond\nthird');
+  assert.equal((highlighted.match(/class="code-line/g) || []).length, 3);
+  assert.match(highlighted, /<\/span><span class="code-line/);
+});
+
 test('undefined names suggest matching declarations from the submitted code', () => {
   const help = resolvePradyError("Undefined variable 'coutner'", 'let counter = 0;');
   assert.match(help.steps[0], /declares 'counter'/);

@@ -1,8 +1,4 @@
-/**
- * Prady Interactive In-Browser Compiler & Runtime Engine (v1.0.0 GA)
- * Pure TypeScript implementation of Lexer, Parser, AST Builder, Diagnostic Bag,
- * Tree-Walking Evaluator, 28 Data Structures, and Higher-Order Collection Operations.
- */
+/** In-browser Prady lexer, parser, diagnostics, and interpreter. */
 
 export interface Diagnostic {
   level: 'error' | 'warning';
@@ -22,6 +18,7 @@ export interface CompileResult {
 }
 
 export type PrintCallback = (text: string) => void;
+export type InputCallback = (prompt: string) => string;
 
 // --- Token Kinds ---
 export enum TokenKind {
@@ -1089,13 +1086,15 @@ export class PradyGraph {
 export class Evaluator {
   private ast: any;
   private onPrint: PrintCallback;
+  private onInput: InputCallback;
   private globalEnv: Environment = new Environment();
   private functions: Map<string, any> = new Map();
   private classes: Map<string, any> = new Map();
 
-  constructor(ast: any, onPrint: PrintCallback) {
+  constructor(ast: any, onPrint: PrintCallback, onInput: InputCallback) {
     this.ast = ast;
     this.onPrint = onPrint;
+    this.onInput = onInput;
     this.setupBuiltins();
   }
 
@@ -1107,6 +1106,9 @@ export class Evaluator {
     this.globalEnv.define('println', (val: any) => {
       this.onPrint(this.formatValue(val));
       return null;
+    });
+    this.globalEnv.define('input', (prompt: any = '') => {
+      return this.onInput(this.formatValue(prompt));
     });
     this.globalEnv.define('assert', (cond: any, msg: string = '') => {
       if (!cond) throw new Error(`Assertion failed: ${msg}`);
@@ -1594,7 +1596,13 @@ export class PradyCompiler {
     return [...lexResult.errors, ...ast.diagnostics];
   }
 
-  static compileAndRun(sourceCode: string, printCallback: PrintCallback): CompileResult {
+  static compileAndRun(
+    sourceCode: string,
+    printCallback: PrintCallback,
+    inputCallback: InputCallback = () => {
+      throw new Error('No program input handler is available.');
+    },
+  ): CompileResult {
     const startTime = performance.now();
     const lexer = new Lexer(sourceCode);
     const lexResult = lexer.tokenize();
@@ -1636,7 +1644,7 @@ export class PradyCompiler {
 
     let runError: string | undefined = undefined;
     try {
-      const evaluator = new Evaluator(ast, printCallback);
+      const evaluator = new Evaluator(ast, printCallback, inputCallback);
       evaluator.evaluate();
     } catch (err: any) {
       runError = err.message || String(err);
